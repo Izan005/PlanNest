@@ -1,12 +1,13 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'create_task_component_widget.dart' show CreateTaskComponentWidget;
+import 'focused_task_widget.dart' show FocusedTaskWidget;
 import 'package:flutter/material.dart';
 
-class CreateTaskComponentModel
-    extends FlutterFlowModel<CreateTaskComponentWidget> {
+class FocusedTaskModel extends FlutterFlowModel<FocusedTaskWidget> {
   ///  Local state fields for this component.
 
-  double? offsetY = -100.0;
+  String prioridad = 'baja';
+
+  DateTime? fechaLimite;
 
   ///  State fields for stateful widgets in this component.
 
@@ -14,6 +15,7 @@ class CreateTaskComponentModel
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  DateTime? datePicked;
 
   @override
   void initState(BuildContext context) {}

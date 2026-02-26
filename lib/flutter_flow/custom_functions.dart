@@ -12,7 +12,7 @@ import '/backend/schema/structs/index.dart';
 import '/backend/supabase/supabase.dart';
 import '/auth/supabase_auth/auth_util.dart';
 
-Color choiceChipsPrioridadColor(String prioridad) {
+Color prioridadColor(String prioridad) {
   final p = prioridad.toLowerCase();
 
   switch (p) {
@@ -38,4 +38,8 @@ Color prioridadSeleccionada(
   if (pB == pS) return Colors.white.withOpacity(0.4);
 
   return Colors.transparent;
+}
+
+String primeraLetraUser(String user) {
+  return user.split("")[0].toUpperCase();
 }
