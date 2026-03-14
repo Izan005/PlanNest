@@ -1,18 +1,15 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
+import '/components/bottom_card/bottom_card_widget.dart';
 import '/components/task_component/task_component_widget.dart';
 import '/components/top_bar/top_bar_widget.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
@@ -28,13 +25,10 @@ class HomePageWidget extends StatefulWidget {
   State<HomePageWidget> createState() => _HomePageWidgetState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget>
-    with TickerProviderStateMixin {
+class _HomePageWidgetState extends State<HomePageWidget> {
   late HomePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
@@ -43,8 +37,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.fechaLimite = getCurrentTimestamp;
-      safeSetState(() {});
       _model.tareasUserDb = await TaskTable().queryRows(
         queryFn: (q) => q
             .eqOrNull(
@@ -60,44 +52,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
       _model.tareasUser = _model.tareasUserDb!.toList().cast<TaskRow>();
       safeSetState(() {});
     });
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
-
-    animationsMap.addAll({
-      'containerOnActionTriggerAnimation1': AnimationInfo(
-        trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
-        effectsBuilder: () => [
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 300.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, -100.0),
-          ),
-        ],
-      ),
-      'containerOnActionTriggerAnimation2': AnimationInfo(
-        trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
-        effectsBuilder: () => [
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 300.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, -100.0),
-          ),
-        ],
-      ),
-    });
-    setupAnimations(
-      animationsMap.values.where((anim) =>
-          anim.trigger == AnimationTrigger.onActionTrigger ||
-          !anim.applyInitialState),
-      this,
-    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -376,1009 +330,60 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           ),
                         ],
                       ),
-                      Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: Stack(
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        12.0, 0.0, 12.0, 0.0),
-                                    child: Builder(
-                                      builder: (context) {
-                                        final tareasUserListView =
-                                            _model.tareasUser.toList();
-
-                                        return ListView.separated(
-                                          padding: EdgeInsets.fromLTRB(
-                                            0,
-                                            20.0,
-                                            0,
-                                            140.0,
-                                          ),
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: tareasUserListView.length,
-                                          separatorBuilder: (_, __) =>
-                                              SizedBox(height: 15.0),
-                                          itemBuilder: (context,
-                                              tareasUserListViewIndex) {
-                                            final tareasUserListViewItem =
-                                                tareasUserListView[
-                                                    tareasUserListViewIndex];
-                                            return TaskComponentWidget(
-                                              key: Key(
-                                                  'Keyy88_${tareasUserListViewIndex}_of_${tareasUserListView.length}'),
-                                              tarea: tareasUserListViewItem,
-                                              callback: () async {
-                                                context.pushNamed(
-                                                    HomePageWidget.routeName);
-
-                                                ScaffoldMessenger.of(context)
-                                                    .clearSnackBars();
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Tarea eliminada',
-                                                      style: TextStyle(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
-                                                      ),
-                                                    ),
-                                                    duration: Duration(
-                                                        milliseconds: 4000),
-                                                    backgroundColor:
-                                                        Colors.black,
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ].divide(SizedBox(height: 10.0)),
-                            ),
-                            if (_model.mostrarPanel == true)
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  _model.mostrarPanel = false;
-                                  safeSetState(() {});
-                                  if (animationsMap[
-                                          'containerOnActionTriggerAnimation1'] !=
-                                      null) {
-                                    await animationsMap[
-                                            'containerOnActionTriggerAnimation1']!
-                                        .controller
-                                        .reverse();
-                                  }
-                                  if (animationsMap[
-                                          'containerOnActionTriggerAnimation2'] !=
-                                      null) {
-                                    await animationsMap[
-                                            'containerOnActionTriggerAnimation2']!
-                                        .controller
-                                        .reverse();
-                                  }
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(0.0),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                      sigmaX: 5.0,
-                                      sigmaY: 5.0,
-                                    ),
-                                    child: Visibility(
-                                      visible: _model.mostrarPanel == true,
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          _model.mostrarPanel = false;
-                                          safeSetState(() {});
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation1'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation1']!
-                                                .controller
-                                                .reverse();
-                                          }
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation2'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation2']!
-                                                .controller
-                                                .reverse();
-                                          }
-                                        },
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: Color(0x6E000000),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              child: Stack(
-                                alignment: AlignmentDirectional(0.0, 0.0),
+                      Align(
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        child: Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Stack(
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Align(
-                                    alignment: AlignmentDirectional(0.0, 9.0),
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        if (_model.mostrarPanel == true) {
-                                          _model.mostrarPanel = false;
-                                          safeSetState(() {});
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation1'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation1']!
-                                                .controller
-                                                .reverse();
-                                          }
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation2'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation2']!
-                                                .controller
-                                                .reverse();
-                                          }
-                                        }
-                                      },
-                                      onVerticalDragEnd: (details) async {
-                                        if (_model.mostrarPanel == true) {
-                                          _model.mostrarPanel = false;
-                                          safeSetState(() {});
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation1'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation1']!
-                                                .controller
-                                                .reverse();
-                                          }
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation2'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation2']!
-                                                .controller
-                                                .reverse();
-                                          }
-                                        }
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 600.0,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFF1F2326),
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(0.0),
-                                            bottomRight: Radius.circular(0.0),
-                                            topLeft: Radius.circular(24.0),
-                                            topRight: Radius.circular(24.0),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: 100.0,
-                                              child: Divider(
-                                                thickness: 1.5,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                12.0,
-                                                                12.0,
-                                                                12.0,
-                                                                0.0),
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      child: TextFormField(
-                                                        controller: _model
-                                                            .textController,
-                                                        focusNode: _model
-                                                            .textFieldFocusNode,
-                                                        autofocus: false,
-                                                        enabled: true,
-                                                        obscureText: false,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          isDense: true,
-                                                          labelStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .inter(
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Color(
-                                                                        0xFF97A3AE),
-                                                                    fontSize:
-                                                                        18.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                          hintText:
-                                                              'Nueva Tarea',
-                                                          hintStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .inter(
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        14.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0),
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .error,
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0),
-                                                          ),
-                                                          focusedErrorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .error,
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0),
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              Color(0x00FFFFFF),
-                                                          prefixIcon: Icon(
-                                                            Icons
-                                                                .add_circle_outline,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font:
-                                                                      GoogleFonts
-                                                                          .inter(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: Colors
-                                                                      .white,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
-                                                        cursorColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
-                                                        enableInteractiveSelection:
-                                                            true,
-                                                        validator: _model
-                                                            .textControllerValidator
-                                                            .asValidator(
-                                                                context),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      0.0, 12.0, 0.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Flexible(
-                                                    child: Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              0.0, -1.0),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    20.0,
-                                                                    12.0,
-                                                                    0.0),
-                                                        child: InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {
-                                                            final _datePickedDate =
-                                                                await showDatePicker(
-                                                              context: context,
-                                                              initialDate:
-                                                                  getCurrentTimestamp,
-                                                              firstDate:
-                                                                  getCurrentTimestamp,
-                                                              lastDate:
-                                                                  DateTime(
-                                                                      2050),
-                                                              builder: (context,
-                                                                  child) {
-                                                                return wrapInMaterialDatePickerTheme(
-                                                                  context,
-                                                                  child!,
-                                                                  headerBackgroundColor:
-                                                                      Colors
-                                                                          .black,
-                                                                  headerForegroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .info,
-                                                                  headerTextStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .headlineLarge
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .interTight(
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .headlineLarge
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        fontSize:
-                                                                            32.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .headlineLarge
-                                                                            .fontStyle,
-                                                                      ),
-                                                                  pickerBackgroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondaryBackground,
-                                                                  pickerForegroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                  selectedDateTimeBackgroundColor:
-                                                                      Colors
-                                                                          .black,
-                                                                  selectedDateTimeForegroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .info,
-                                                                  actionButtonForegroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                  iconSize:
-                                                                      24.0,
-                                                                );
-                                                              },
-                                                            );
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          12.0, 0.0, 12.0, 0.0),
+                                      child: Builder(
+                                        builder: (context) {
+                                          final tareasUserListView =
+                                              _model.tareasUser.toList();
 
-                                                            if (_datePickedDate !=
-                                                                null) {
-                                                              safeSetState(() {
-                                                                _model.datePicked =
-                                                                    DateTime(
-                                                                  _datePickedDate
-                                                                      .year,
-                                                                  _datePickedDate
-                                                                      .month,
-                                                                  _datePickedDate
-                                                                      .day,
-                                                                );
-                                                              });
-                                                            } else if (_model
-                                                                    .datePicked !=
-                                                                null) {
-                                                              safeSetState(() {
-                                                                _model.datePicked =
-                                                                    getCurrentTimestamp;
-                                                              });
-                                                            }
-                                                            _model.fechaLimite =
-                                                                _model
-                                                                    .datePicked;
-                                                            safeSetState(() {});
-                                                          },
-                                                          child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            height: 40.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Color(
-                                                                  0x0014181B),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20.0),
-                                                              border:
-                                                                  Border.all(
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .calendar_today,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    size: 18.0,
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child: Text(
-                                                                    'Fecha límite:',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.inter(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                if (_model
-                                                                        .fechaLimite !=
-                                                                    null)
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      valueOrDefault<
-                                                                          String>(
-                                                                        dateTimeFormat(
-                                                                          "yMMMd",
-                                                                          _model
-                                                                              .fechaLimite,
-                                                                          locale:
-                                                                              FFLocalizations.of(context).languageCode,
-                                                                        ),
-                                                                        '1-1-1',
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            font:
-                                                                                GoogleFonts.inter(
-                                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                          return ListView.separated(
+                                            padding: EdgeInsets.fromLTRB(
+                                              0,
+                                              20.0,
+                                              0,
+                                              140.0,
                                             ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      12.0, 20.0, 12.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Flexible(
-                                                    child: Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              -1.0, -1.0),
-                                                      child: Text(
-                                                        'Presiona la Prioridad',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .interTight(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleMedium
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleMedium
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleMedium
-                                                                      .fontStyle,
-                                                                ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: AlignmentDirectional(
-                                                  0.0, -1.0),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 12.0, 12.0, 0.0),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Opacity(
-                                                      opacity:
-                                                          _model.prioridad ==
-                                                                  'baja'
-                                                              ? 1.0
-                                                              : 0.5,
-                                                      child: FFButtonWidget(
-                                                        onPressed: () async {
-                                                          _model.prioridad =
-                                                              'baja';
-                                                          safeSetState(() {});
-                                                          await actions
-                                                              .ocultarTeclado();
-                                                        },
-                                                        text: 'Baja',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          width: 100.0,
-                                                          height: 36.6,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      16.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color:
-                                                              Color(0x692A9429),
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .interTight(
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Colors
-                                                                        .white,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                          elevation: 0.0,
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Color(
-                                                                0xFFF4F4F4),
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Opacity(
-                                                      opacity:
-                                                          _model.prioridad ==
-                                                                  'media'
-                                                              ? 1.0
-                                                              : 0.5,
-                                                      child: FFButtonWidget(
-                                                        onPressed: () async {
-                                                          _model.prioridad =
-                                                              'media';
-                                                          safeSetState(() {});
-                                                          await actions
-                                                              .ocultarTeclado();
-                                                        },
-                                                        text: 'Media',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          width: 100.0,
-                                                          height: 36.6,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      16.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color:
-                                                              Color(0x6DEFE239),
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .interTight(
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Colors
-                                                                        .white,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                          elevation: 0.0,
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Color(
-                                                                0xFFF4F4F4),
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Opacity(
-                                                      opacity:
-                                                          _model.prioridad ==
-                                                                  'alta'
-                                                              ? 1.0
-                                                              : 0.5,
-                                                      child: FFButtonWidget(
-                                                        onPressed: () async {
-                                                          _model.prioridad =
-                                                              'alta';
-                                                          safeSetState(() {});
-                                                          await actions
-                                                              .ocultarTeclado();
-                                                        },
-                                                        text: 'Alta',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          width: 100.0,
-                                                          height: 36.6,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      16.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color:
-                                                              Color(0xA0EF394D),
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .interTight(
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Colors
-                                                                        .white,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                          elevation: 0.0,
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Color(
-                                                                0xFFF4F4F4),
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ].divide(
-                                                      SizedBox(width: 20.0)),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            itemCount:
+                                                tareasUserListView.length,
+                                            separatorBuilder: (_, __) =>
+                                                SizedBox(height: 15.0),
+                                            itemBuilder: (context,
+                                                tareasUserListViewIndex) {
+                                              final tareasUserListViewItem =
+                                                  tareasUserListView[
+                                                      tareasUserListViewIndex];
+                                              return wrapWithModel(
+                                                model: _model
+                                                    .taskComponentModels
+                                                    .getModel(
+                                                  tareasUserListViewIndex
+                                                      .toString(),
+                                                  tareasUserListViewIndex,
                                                 ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 15.0, 10.0, 0.0),
-                                              child: FFButtonWidget(
-                                                onPressed: () async {
-                                                  if (_model.textController
-                                                              .text !=
-                                                          '') {
-                                                    await TaskTable().insert({
-                                                      'priority':
-                                                          _model.prioridad,
-                                                      'task_name': _model
-                                                          .textController.text,
-                                                      'expiration_date':
-                                                          supaSerialize<
-                                                                  DateTime>(
-                                                              _model
-                                                                  .fechaLimite),
-                                                      'user_id': FFAppState()
-                                                          .userLogged
-                                                          .id,
-                                                    });
-                                                    if (animationsMap[
-                                                            'containerOnActionTriggerAnimation1'] !=
-                                                        null) {
-                                                      await animationsMap[
-                                                              'containerOnActionTriggerAnimation1']!
-                                                          .controller
-                                                          .reverse();
-                                                    }
-                                                    if (animationsMap[
-                                                            'containerOnActionTriggerAnimation2'] !=
-                                                        null) {
-                                                      await animationsMap[
-                                                              'containerOnActionTriggerAnimation2']!
-                                                          .controller
-                                                          .reverse();
-                                                    }
-                                                    _model.mostrarPanel = false;
-                                                    safeSetState(() {});
-
+                                                updateCallback: () =>
+                                                    safeSetState(() {}),
+                                                child: TaskComponentWidget(
+                                                  key: Key(
+                                                    'Keyy88_${tareasUserListViewIndex.toString()}',
+                                                  ),
+                                                  tarea: tareasUserListViewItem,
+                                                  callback: () async {
                                                     context.pushNamed(
                                                         HomePageWidget
                                                             .routeName);
@@ -1391,7 +396,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         .showSnackBar(
                                                       SnackBar(
                                                         content: Text(
-                                                          'Tarea creada con éxito',
+                                                          'Tarea eliminada',
                                                           style: TextStyle(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
@@ -1399,162 +404,29 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                           ),
                                                         ),
                                                         duration: Duration(
-                                                            milliseconds: 3000),
+                                                            milliseconds: 4000),
                                                         backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondary,
+                                                            Colors.black,
                                                       ),
                                                     );
-                                                  } else {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .clearSnackBars();
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Introduce nombre de la Tarea',
-                                                          style: TextStyle(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                          ),
-                                                        ),
-                                                        duration: Duration(
-                                                            milliseconds: 3000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                                text: 'Crear Tarea',
-                                                options: FFButtonOptions(
-                                                  width: double.infinity,
-                                                  height: 36.6,
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          16.0, 0.0, 16.0, 0.0),
-                                                  iconPadding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(0.0, 0.0,
-                                                              0.0, 0.0),
-                                                  color: Color(0x004B39EF),
-                                                  textStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .override(
-                                                            font: GoogleFonts
-                                                                .interTight(
-                                                              fontWeight:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontWeight,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                            ),
-                                                            color: Colors.white,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontStyle,
-                                                          ),
-                                                  elevation: 0.0,
-                                                  borderSide: BorderSide(
-                                                    color: Color(0xFFF4F4F4),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          16.0),
+                                                  },
                                                 ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
-                                    ).animateOnActionTrigger(
-                                      animationsMap[
-                                          'containerOnActionTriggerAnimation1']!,
                                     ),
                                   ),
-                                  if (_model.mostrarPanel == false)
-                                    Align(
-                                      alignment: AlignmentDirectional(0.0, 9.0),
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          _model.mostrarPanel = true;
-                                          safeSetState(() {});
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation1'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation1']!
-                                                .controller
-                                                .forward(from: 0.0);
-                                          }
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation2'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation2']!
-                                                .controller
-                                                .forward(from: 0.0);
-                                          }
-                                          await actions.ocultarTeclado();
-                                        },
-                                        onVerticalDragStart: (details) async {
-                                          _model.mostrarPanel = true;
-                                          safeSetState(() {});
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation1'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation1']!
-                                                .controller
-                                                .forward(from: 0.0);
-                                          }
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation2'] !=
-                                              null) {
-                                            await animationsMap[
-                                                    'containerOnActionTriggerAnimation2']!
-                                                .controller
-                                                .forward(from: 0.0);
-                                          }
-                                          await actions.ocultarTeclado();
-                                        },
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 600.0,
-                                          decoration: BoxDecoration(
-                                            color: Color(0x0014181B),
-                                          ),
-                                        ),
-                                      ).animateOnActionTrigger(
-                                        animationsMap[
-                                            'containerOnActionTriggerAnimation2']!,
-                                      ),
-                                    ),
-                                ],
+                                ].divide(SizedBox(height: 10.0)),
                               ),
-                            ),
-                          ],
+                              wrapWithModel(
+                                model: _model.bottomCardModel,
+                                updateCallback: () => safeSetState(() {}),
+                                child: BottomCardWidget(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Column(
