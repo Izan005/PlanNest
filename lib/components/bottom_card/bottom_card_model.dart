@@ -11,6 +11,8 @@ class BottomCardModel extends FlutterFlowModel<BottomCardWidget> {
 
   String prioridad = 'baja';
 
+  bool expanded = false;
+
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for TextField widget.

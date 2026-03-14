@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -99,24 +100,18 @@ class _BottomCardWidgetState extends State<BottomCardWidget>
     return Stack(
       children: [
         if (_model.mostrarPanel == true)
-          InkWell(
-            splashColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
+          GestureDetector(
             onTap: () async {
               _model.mostrarPanel = false;
               safeSetState(() {});
-              if (animationsMap['containerOnActionTriggerAnimation1'] != null) {
-                await animationsMap['containerOnActionTriggerAnimation1']!
-                    .controller
-                    .reverse();
-              }
-              if (animationsMap['containerOnActionTriggerAnimation2'] != null) {
-                await animationsMap['containerOnActionTriggerAnimation2']!
-                    .controller
-                    .reverse();
-              }
+              _model.expanded = !_model.expanded;
+              safeSetState(() {});
+            },
+            onVerticalDragEnd: (details) async {
+              _model.mostrarPanel = false;
+              safeSetState(() {});
+              _model.expanded = !_model.expanded;
+              safeSetState(() {});
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(0.0),
@@ -127,28 +122,18 @@ class _BottomCardWidgetState extends State<BottomCardWidget>
                 ),
                 child: Visibility(
                   visible: _model.mostrarPanel == true,
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
+                  child: GestureDetector(
                     onTap: () async {
                       _model.mostrarPanel = false;
                       safeSetState(() {});
-                      if (animationsMap['containerOnActionTriggerAnimation1'] !=
-                          null) {
-                        await animationsMap[
-                                'containerOnActionTriggerAnimation1']!
-                            .controller
-                            .reverse();
-                      }
-                      if (animationsMap['containerOnActionTriggerAnimation2'] !=
-                          null) {
-                        await animationsMap[
-                                'containerOnActionTriggerAnimation2']!
-                            .controller
-                            .reverse();
-                      }
+                      _model.expanded = !_model.expanded;
+                      safeSetState(() {});
+                    },
+                    onVerticalDragEnd: (details) async {
+                      _model.mostrarPanel = false;
+                      safeSetState(() {});
+                      _model.expanded = !_model.expanded;
+                      safeSetState(() {});
                     },
                     child: Container(
                       width: double.infinity,
@@ -177,49 +162,27 @@ class _BottomCardWidgetState extends State<BottomCardWidget>
                       if (_model.mostrarPanel == true) {
                         _model.mostrarPanel = false;
                         safeSetState(() {});
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation1'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation1']!
-                              .controller
-                              .reverse();
-                        }
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation2'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation2']!
-                              .controller
-                              .reverse();
-                        }
+                        _model.expanded = !_model.expanded;
+                        safeSetState(() {});
                       }
                     },
                     onVerticalDragEnd: (details) async {
                       if (_model.mostrarPanel == true) {
                         _model.mostrarPanel = false;
                         safeSetState(() {});
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation1'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation1']!
-                              .controller
-                              .reverse();
-                        }
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation2'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation2']!
-                              .controller
-                              .reverse();
-                        }
+                        _model.expanded = !_model.expanded;
+                        safeSetState(() {});
                       }
                     },
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
                       width: double.infinity,
-                      height: MediaQuery.sizeOf(context).height * 0.4,
+                      height: _model.expanded
+                          ? functions.bottomCardMover(
+                              MediaQuery.sizeOf(context).height, 0.5)
+                          : functions.bottomCardMover(
+                              MediaQuery.sizeOf(context).height, 0.23),
                       decoration: BoxDecoration(
                         color: Color(0xFF1F2326),
                         borderRadius: BorderRadius.only(
@@ -820,23 +783,8 @@ class _BottomCardWidgetState extends State<BottomCardWidget>
                                         _model.fechaLimite),
                                     'user_id': FFAppState().userLogged.id,
                                   });
-                                  if (animationsMap[
-                                          'containerOnActionTriggerAnimation1'] !=
-                                      null) {
-                                    await animationsMap[
-                                            'containerOnActionTriggerAnimation1']!
-                                        .controller
-                                        .reverse();
-                                  }
-                                  if (animationsMap[
-                                          'containerOnActionTriggerAnimation2'] !=
-                                      null) {
-                                    await animationsMap[
-                                            'containerOnActionTriggerAnimation2']!
-                                        .controller
-                                        .reverse();
-                                  }
                                   _model.mostrarPanel = false;
+                                  _model.expanded = !_model.expanded;
                                   safeSetState(() {});
 
                                   context.pushNamed(HomePageWidget.routeName);
@@ -928,48 +876,24 @@ class _BottomCardWidgetState extends State<BottomCardWidget>
                       onTap: () async {
                         _model.mostrarPanel = true;
                         safeSetState(() {});
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation1'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation1']!
-                              .controller
-                              .forward(from: 0.0);
-                        }
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation2'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation2']!
-                              .controller
-                              .forward(from: 0.0);
-                        }
+                        _model.expanded = !_model.expanded;
+                        safeSetState(() {});
                         await actions.ocultarTeclado();
                       },
                       onVerticalDragStart: (details) async {
                         _model.mostrarPanel = true;
                         safeSetState(() {});
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation1'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation1']!
-                              .controller
-                              .forward(from: 0.0);
-                        }
-                        if (animationsMap[
-                                'containerOnActionTriggerAnimation2'] !=
-                            null) {
-                          await animationsMap[
-                                  'containerOnActionTriggerAnimation2']!
-                              .controller
-                              .forward(from: 0.0);
-                        }
+                        _model.expanded = !_model.expanded;
+                        safeSetState(() {});
                         await actions.ocultarTeclado();
                       },
                       child: Container(
                         width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height * 0.4,
+                        height: _model.expanded
+                            ? functions.bottomCardMover(
+                                MediaQuery.sizeOf(context).height, 0.5)
+                            : functions.bottomCardMover(
+                                MediaQuery.sizeOf(context).height, 0.23),
                         decoration: BoxDecoration(
                           color: Color(0x0014181B),
                         ),

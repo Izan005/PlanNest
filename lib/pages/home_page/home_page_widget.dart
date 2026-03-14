@@ -420,10 +420,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                                 ].divide(SizedBox(height: 10.0)),
                               ),
-                              wrapWithModel(
-                                model: _model.bottomCardModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: BottomCardWidget(),
+                              Align(
+                                alignment: AlignmentDirectional(0.0, 0.0),
+                                child: wrapWithModel(
+                                  model: _model.bottomCardModel,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: BottomCardWidget(),
+                                ),
                               ),
                             ],
                           ),

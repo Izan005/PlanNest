@@ -43,3 +43,10 @@ Color prioridadSeleccionada(
 String primeraLetraUser(String user) {
   return user.split("")[0].toUpperCase();
 }
+
+double bottomCardMover(
+  double screenHeight,
+  double height,
+) {
+  return screenHeight * height;
+}
