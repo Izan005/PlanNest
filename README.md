@@ -1,6 +1,7 @@
 # PlanNest
 
-Proyecto final de DAM
+A new Flutter project.
 
-## RELEASE 0.1.1
+## Getting Started
 
+FlutterFlow projects are built to run on the Flutter _stable_ release.

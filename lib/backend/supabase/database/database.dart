@@ -6,4 +6,6 @@ export 'row.dart';
 export 'table.dart';
 
 export 'tables/task.dart';
+export 'tables/shared_items.dart';
 export 'tables/user.dart';
+export 'tables/note.dart';

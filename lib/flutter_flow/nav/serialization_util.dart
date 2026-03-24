@@ -218,8 +218,12 @@ dynamic deserializeParam<T>(
         switch (T) {
           case TaskRow:
             return TaskRow(data);
+          case SharedItemsRow:
+            return SharedItemsRow(data);
           case UserRow:
             return UserRow(data);
+          case NoteRow:
+            return NoteRow(data);
           default:
             return null;
         }
