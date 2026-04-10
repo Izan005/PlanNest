@@ -50,3 +50,28 @@ double bottomCardMover(
 ) {
   return screenHeight * height;
 }
+
+DateTime defaultFechaLimite(DateTime fechaLimite) {
+  return fechaLimite ?? DateTime.now();
+}
+
+Color checkboxColor(
+  bool checkboxState,
+  int totalSelected,
+) {
+  if (checkboxState && totalSelected != 0) {
+    return Colors.white;
+  } else {
+    return Colors.transparent;
+  }
+}
+
+String totalNotasSeleccionadasDelete(List<int> selectedIds) {
+  return "Se eliminarán ${selectedIds.length} notas";
+}
+
+String eliminadasNotas(List<int> selectedIds) {
+  return selectedIds.length > 1
+      ? "Se han eliminado ${selectedIds.length} notas"
+      : "Se ha eliminado una nota";
+}

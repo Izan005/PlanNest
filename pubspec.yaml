@@ -52,7 +52,6 @@ dependencies:
   path_provider_linux: 2.2.1
   path_provider_platform_interface: 2.1.2
   path_provider_windows: 2.3.0
-  percent_indicator: 4.2.2
   postgrest: 2.4.2
   provider: 6.1.5
   realtime_client: 2.5.0
@@ -70,6 +69,7 @@ dependencies:
   sqflite: 2.3.3+1
   sqflite_common: 2.5.4+3
   storage_client: 2.4.0
+  substring_highlight: 1.0.33
   supabase: 2.7.0
   supabase_flutter: 2.9.0
   timeago: 3.7.1

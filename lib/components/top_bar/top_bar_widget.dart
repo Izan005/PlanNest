@@ -63,6 +63,7 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
+                        color: Colors.white,
                         fontSize: 18.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.bold,
@@ -90,13 +91,13 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                               alignment: AlignmentDirectional(-1.0, 0.0),
                               child: Icon(
                                 Icons.search,
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: Colors.white,
                                 size: 24.0,
                               ),
                             ),
                             Icon(
                               Icons.filter_list,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.white,
                               size: 24.0,
                             ),
                           ].divide(SizedBox(width: 20.0)),

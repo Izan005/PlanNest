@@ -72,10 +72,8 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
               decoration: BoxDecoration(
                 color: Color(0xFF1F2326),
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(0.0),
-                  bottomRight: Radius.circular(24.0),
                   topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(0.0),
+                  bottomRight: Radius.circular(24.0),
                 ),
               ),
               child: Padding(
@@ -103,6 +101,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                         .titleMedium
                                         .fontStyle,
                                   ),
+                                  color: Colors.white,
                                   fontSize: 22.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
@@ -137,10 +136,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                       color: functions
                                           .prioridadColor(_model.prioridad),
                                       borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(16.0),
-                                        bottomRight: Radius.circular(16.0),
                                         topLeft: Radius.circular(16.0),
                                         topRight: Radius.circular(16.0),
+                                        bottomLeft: Radius.circular(16.0),
+                                        bottomRight: Radius.circular(16.0),
                                       ),
                                     ),
                                   ),
@@ -189,6 +188,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                                             .titleMedium
                                                             .fontStyle,
                                                   ),
+                                                  color: Colors.white,
                                                   letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
@@ -285,6 +285,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
+                                                color: Colors.white,
                                                 letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
@@ -308,8 +309,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                   ),
                                   Divider(
                                     thickness: 2.0,
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: Color(0xFF262D34),
                                   ),
                                   Container(
                                     width: double.infinity,
@@ -410,9 +410,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                                     5.0, 0.0, 0.0, 0.0),
                                             child: Icon(
                                               Icons.calendar_today,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
+                                              color: Colors.white,
                                               size: 15.0,
                                             ),
                                           ),
@@ -438,6 +436,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
+                                                        color: Colors.white,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
@@ -475,6 +474,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                                             .bodyMedium
                                                             .fontStyle,
                                                   ),
+                                                  color: Colors.white,
                                                   letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
@@ -712,7 +712,15 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
 
                           Navigator.pop(context);
 
-                          context.pushNamed(HomePageWidget.routeName);
+                          context.pushNamed(
+                            HomePageWidget.routeName,
+                            queryParameters: {
+                              'targetPage': serializeParam(
+                                1,
+                                ParamType.int,
+                              ),
+                            }.withoutNulls,
+                          );
                         },
                         text: 'Realizar Tarea',
                         options: FFButtonOptions(
@@ -809,7 +817,15 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                         );
                         Navigator.pop(context);
 
-                        context.pushNamed(HomePageWidget.routeName);
+                        context.pushNamed(
+                          HomePageWidget.routeName,
+                          queryParameters: {
+                            'targetPage': serializeParam(
+                              1,
+                              ParamType.int,
+                            ),
+                          }.withoutNulls,
+                        );
 
                         ScaffoldMessenger.of(context).clearSnackBars();
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -867,7 +883,15 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                         );
                         Navigator.pop(context);
 
-                        context.pushNamed(HomePageWidget.routeName);
+                        context.pushNamed(
+                          HomePageWidget.routeName,
+                          queryParameters: {
+                            'targetPage': serializeParam(
+                              1,
+                              ParamType.int,
+                            ),
+                          }.withoutNulls,
+                        );
 
                         ScaffoldMessenger.of(context).clearSnackBars();
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -900,7 +924,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                     },
                     child: Icon(
                       Icons.cancel,
-                      color: FlutterFlowTheme.of(context).primaryText,
+                      color: Colors.white,
                       size: 24.0,
                     ),
                   ),

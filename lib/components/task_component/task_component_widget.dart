@@ -153,10 +153,8 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
         decoration: BoxDecoration(
           color: Color(0xFF1F2326),
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(0.0),
-            bottomRight: Radius.circular(24.0),
             topLeft: Radius.circular(24.0),
-            topRight: Radius.circular(0.0),
+            bottomRight: Radius.circular(24.0),
           ),
         ),
         child: Row(
@@ -178,10 +176,10 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                           color: functions
                               .prioridadColor(widget.tarea!.priority!),
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(16.0),
-                            bottomRight: Radius.circular(16.0),
                             topLeft: Radius.circular(16.0),
                             topRight: Radius.circular(16.0),
+                            bottomLeft: Radius.circular(16.0),
+                            bottomRight: Radius.circular(16.0),
                           ),
                         ),
                       ),
@@ -218,6 +216,7 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                                           .titleMedium
                                           .fontStyle,
                                     ),
+                                    color: Colors.white,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleMedium
@@ -232,7 +231,7 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                     ),
                     Divider(
                       thickness: 2.0,
-                      color: FlutterFlowTheme.of(context).alternate,
+                      color: Color(0xFF262D34),
                     ),
                     Padding(
                       padding:

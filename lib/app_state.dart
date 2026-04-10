@@ -49,6 +49,35 @@ class FFAppState extends ChangeNotifier {
     updateFn(_userLogged);
     prefs.setString('ff_userLogged', _userLogged.serialize());
   }
+
+  List<int> _selectedNoteIds = [];
+  List<int> get selectedNoteIds => _selectedNoteIds;
+  set selectedNoteIds(List<int> value) {
+    _selectedNoteIds = value;
+  }
+
+  void addToSelectedNoteIds(int value) {
+    selectedNoteIds.add(value);
+  }
+
+  void removeFromSelectedNoteIds(int value) {
+    selectedNoteIds.remove(value);
+  }
+
+  void removeAtIndexFromSelectedNoteIds(int index) {
+    selectedNoteIds.removeAt(index);
+  }
+
+  void updateSelectedNoteIdsAtIndex(
+    int index,
+    int Function(int) updateFn,
+  ) {
+    selectedNoteIds[index] = updateFn(_selectedNoteIds[index]);
+  }
+
+  void insertAtIndexInSelectedNoteIds(int index, int value) {
+    selectedNoteIds.insert(index, value);
+  }
 }
 
 void _safeInit(Function() initializeField) {

@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'bottom_card_widget.dart' show BottomCardWidget;
+import 'bottom_card_task_widget.dart' show BottomCardTaskWidget;
 import 'package:flutter/material.dart';
 
-class BottomCardModel extends FlutterFlowModel<BottomCardWidget> {
+class BottomCardTaskModel extends FlutterFlowModel<BottomCardTaskWidget> {
   ///  Local state fields for this component.
 
   bool mostrarPanel = false;

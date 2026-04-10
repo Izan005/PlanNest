@@ -90,17 +90,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: HomePageWidget.routeName,
           path: HomePageWidget.routePath,
-          builder: (context, params) => HomePageWidget(),
+          builder: (context, params) => HomePageWidget(
+            targetPage: params.getParam(
+              'targetPage',
+              ParamType.int,
+            ),
+          ),
         ),
         FFRoute(
           name: LoginWidget.routeName,
           path: LoginWidget.routePath,
           builder: (context, params) => LoginWidget(),
-        ),
-        FFRoute(
-          name: MisionesWidget.routeName,
-          path: MisionesWidget.routePath,
-          builder: (context, params) => MisionesWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
