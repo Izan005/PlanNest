@@ -1,6 +1,8 @@
 import '/backend/supabase/supabase.dart';
+import '/components/add_members_card/add_members_card_widget.dart';
 import '/components/focused_note/focused_note_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -311,6 +313,36 @@ class _NotePreviewCardWidgetState extends State<NotePreviewCardWidget>
                         ),
                       ),
                     ),
+                  ),
+                ),
+              if (!widget.multipleSelected!)
+                Align(
+                  alignment: AlignmentDirectional(1.0, -1.0),
+                  child: FlutterFlowIconButton(
+                    borderRadius: 8.0,
+                    buttonSize: 40.0,
+                    fillColor: Color(0x004B39EF),
+                    icon: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 24.0,
+                    ),
+                    onPressed: () async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Color(0x387A7A7A),
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: MediaQuery.viewInsetsOf(context),
+                            child: AddMembersCardWidget(
+                              note: widget.note,
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+                    },
                   ),
                 ),
             ],

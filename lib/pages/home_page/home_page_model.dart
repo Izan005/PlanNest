@@ -34,8 +34,12 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
 
   int? totalSelected;
 
+  String? onesignalIdPage;
+
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - getOneSignalId] action in HomePage widget.
+  String? onesignalId;
   // Stores action output result for [Backend Call - Query Rows] action in HomePage widget.
   List<TaskRow>? tareasUserDb;
   // Stores action output result for [Backend Call - Query Rows] action in HomePage widget.

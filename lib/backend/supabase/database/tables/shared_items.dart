@@ -17,8 +17,8 @@ class SharedItemsRow extends SupabaseDataRow {
   int get id => getField<int>('id')!;
   set id(int value) => setField<int>('id', value);
 
-  DateTime get createdAt => getField<DateTime>('created_at')!;
-  set createdAt(DateTime value) => setField<DateTime>('created_at', value);
+  DateTime? get createdAt => getField<DateTime>('created_at');
+  set createdAt(DateTime? value) => setField<DateTime>('created_at', value);
 
   int? get taskId => getField<int>('task_id');
   set taskId(int? value) => setField<int>('task_id', value);
@@ -26,8 +26,8 @@ class SharedItemsRow extends SupabaseDataRow {
   int? get noteId => getField<int>('note_id');
   set noteId(int? value) => setField<int>('note_id', value);
 
-  String? get ownerId => getField<String>('owner_Id');
-  set ownerId(String? value) => setField<String>('owner_Id', value);
+  String? get ownerId => getField<String>('owner_id');
+  set ownerId(String? value) => setField<String>('owner_id', value);
 
   String? get guestId => getField<String>('guest_id');
   set guestId(String? value) => setField<String>('guest_id', value);

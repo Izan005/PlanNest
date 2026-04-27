@@ -1,6 +1,8 @@
 import '/backend/supabase/supabase.dart';
+import '/components/add_members_card/add_members_card_widget.dart';
 import '/components/focused_task/focused_task_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -147,77 +149,74 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
 
         context.pushNamed(HomePageWidget.routeName);
       },
-      child: Container(
-        width: double.infinity,
-        height: 100.0,
-        decoration: BoxDecoration(
-          color: Color(0xFF1F2326),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24.0),
-            bottomRight: Radius.circular(24.0),
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24.0),
+          bottomRight: Radius.circular(24.0),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Flexible(
-                  child: Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
-                      child: Container(
-                        width: 15.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          color: functions
-                              .prioridadColor(widget.tarea!.priority!),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16.0),
-                            topRight: Radius.circular(16.0),
-                            bottomLeft: Radius.circular(16.0),
-                            bottomRight: Radius.circular(16.0),
+        child: Container(
+          width: double.infinity,
+          height: 100.0,
+          decoration: BoxDecoration(
+            color: Color(0xFF1F2326),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.0),
+              bottomRight: Radius.circular(24.0),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Flexible(
+                    child: Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                        child: Container(
+                          width: 15.0,
+                          height: 80.0,
+                          decoration: BoxDecoration(
+                            color: functions
+                                .prioridadColor(widget.tarea!.priority!),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.0),
+                              topRight: Radius.circular(16.0),
+                              bottomLeft: Radius.circular(16.0),
+                              bottomRight: Radius.circular(16.0),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 10.0, 0.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional(-1.0, -1.0),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-                        child: Text(
-                          valueOrDefault<String>(
-                            widget.tarea?.taskName,
-                            'Tarea',
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).titleMedium.override(
-                                    font: GoogleFonts.interTight(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
+                ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 10.0, 0.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(-1.0, -1.0),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 12.0, 0.0, 0.0),
+                          child: Text(
+                            valueOrDefault<String>(
+                              widget.tarea?.taskName,
+                              'Tarea',
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .titleMedium
+                                .override(
+                                  font: GoogleFonts.interTight(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .fontWeight,
@@ -225,52 +224,98 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                                         .titleMedium
                                         .fontStyle,
                                   ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      thickness: 2.0,
-                      color: Color(0xFF262D34),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
-                      child: Text(
-                        valueOrDefault<String>(
-                          dateTimeFormat(
-                            "yMMMd",
-                            widget.tarea?.expirationDate,
-                            locale: FFLocalizations.of(context).languageCode,
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleMedium
+                                      .fontStyle,
+                                ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          '1-1-1',
                         ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.inter(
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              color: Color(0x64FFFFFF),
-                              fontSize: 13.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
                       ),
+                      Divider(
+                        thickness: 2.0,
+                        color: Color(0xFF262D34),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                        child: Text(
+                          valueOrDefault<String>(
+                            dateTimeFormat(
+                              "yMMMd",
+                              widget.tarea?.expirationDate,
+                              locale: FFLocalizations.of(context).languageCode,
+                            ),
+                            '1-1-1',
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: Color(0x64FFFFFF),
+                                    fontSize: 13.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Align(
+                alignment: AlignmentDirectional(1.0, 0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FlutterFlowIconButton(
+                      borderRadius: 8.0,
+                      buttonSize: 40.0,
+                      fillColor: Color(0x004B39EF),
+                      icon: Icon(
+                        Icons.send,
+                        color: Colors.white,
+                        size: 24.0,
+                      ),
+                      onPressed: () async {
+                        await showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Color(0x387A7A7A),
+                          enableDrag: false,
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: AddMembersCardWidget(
+                                task: widget.tarea,
+                              ),
+                            );
+                          },
+                        ).then((value) => safeSetState(() {}));
+                      },
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ).animateOnPageLoad(animationsMap['containerOnPageLoadAnimation']!);

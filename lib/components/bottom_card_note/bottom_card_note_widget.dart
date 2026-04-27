@@ -242,10 +242,10 @@ class _BottomCardNoteWidgetState extends State<BottomCardNoteWidget>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 100.0,
+                              width: 50.0,
                               child: Divider(
                                 thickness: 1.5,
-                                color: Colors.white,
+                                color: Color(0x79FFFFFF),
                               ),
                             ),
                             Flexible(

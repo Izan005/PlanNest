@@ -75,3 +75,35 @@ String eliminadasNotas(List<int> selectedIds) {
       ? "Se han eliminado ${selectedIds.length} notas"
       : "Se ha eliminado una nota";
 }
+
+int countTasks(List<TaskRow> tareas) {
+  return tareas.length;
+}
+
+int countNotes(List<NoteRow> notas) {
+  return notas.length;
+}
+
+dynamic formatSharedItemsToJson(
+  List<UserStruct> guests,
+  String owner,
+  int? task,
+  int? note,
+) {
+  return guests.map((guest) {
+    return {
+      // Datos que vienen del usuario en esta iteración
+      'task_id': task,
+      'note_id': note,
+      'owner_id': owner,
+      'guest_id': guest.id,
+      'accepted': false,
+    };
+  }).toList();
+}
+
+bool passLengthVerification(String pass) {
+  if (pass.length >= 6) return true;
+
+  return false;
+}

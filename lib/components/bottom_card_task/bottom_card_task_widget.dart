@@ -273,10 +273,10 @@ class _BottomCardTaskWidgetState extends State<BottomCardTaskWidget>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 100.0,
+                              width: 50.0,
                               child: Divider(
                                 thickness: 1.5,
-                                color: Colors.white,
+                                color: Color(0x79FFFFFF),
                               ),
                             ),
                             Row(
@@ -776,9 +776,6 @@ class _BottomCardTaskWidgetState extends State<BottomCardTaskWidget>
                                                           .fontStyle,
                                                 ),
                                             elevation: 0.0,
-                                            borderSide: BorderSide(
-                                              color: Color(0xFFF4F4F4),
-                                            ),
                                             borderRadius:
                                                 BorderRadius.circular(16.0),
                                           ),
@@ -835,9 +832,6 @@ class _BottomCardTaskWidgetState extends State<BottomCardTaskWidget>
                                                           .fontStyle,
                                                 ),
                                             elevation: 0.0,
-                                            borderSide: BorderSide(
-                                              color: Color(0xFFF4F4F4),
-                                            ),
                                             borderRadius:
                                                 BorderRadius.circular(16.0),
                                           ),
@@ -894,9 +888,6 @@ class _BottomCardTaskWidgetState extends State<BottomCardTaskWidget>
                                                           .fontStyle,
                                                 ),
                                             elevation: 0.0,
-                                            borderSide: BorderSide(
-                                              color: Color(0xFFF4F4F4),
-                                            ),
                                             borderRadius:
                                                 BorderRadius.circular(16.0),
                                           ),
@@ -922,6 +913,7 @@ class _BottomCardTaskWidgetState extends State<BottomCardTaskWidget>
                                                 functions.defaultFechaLimite(
                                                     _model.fechaLimite!)),
                                         'user_id': FFAppState().userLogged.id,
+                                        'notified': false,
                                       });
                                       _model.mostrarPanel = false;
                                       _model.expanded = !_model.expanded;

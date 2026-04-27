@@ -19,8 +19,10 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   TextEditingController? emailAddressTextController;
   String? Function(BuildContext, String?)? emailAddressTextControllerValidator;
   // State field(s) for password widget.
+  final passwordKey = GlobalKey();
   FocusNode? passwordFocusNode;
   TextEditingController? passwordTextController;
+  String? passwordSelectedOption;
   late bool passwordVisibility;
   String? Function(BuildContext, String?)? passwordTextControllerValidator;
   // Stores action output result for [Backend Call - Query Rows] action in Button widget.
@@ -59,7 +61,6 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
     emailAddressTextController?.dispose();
 
     passwordFocusNode?.dispose();
-    passwordTextController?.dispose();
 
     emailAddressCreateFocusNode?.dispose();
     emailAddressCreateTextController?.dispose();

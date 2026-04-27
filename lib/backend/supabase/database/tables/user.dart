@@ -31,4 +31,7 @@ class UserRow extends SupabaseDataRow {
 
   String get email => getField<String>('email')!;
   set email(String value) => setField<String>('email', value);
+
+  String? get onesignalId => getField<String>('onesignal_id');
+  set onesignalId(String? value) => setField<String>('onesignal_id', value);
 }

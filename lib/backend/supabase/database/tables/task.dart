@@ -17,8 +17,8 @@ class TaskRow extends SupabaseDataRow {
   int get id => getField<int>('id')!;
   set id(int value) => setField<int>('id', value);
 
-  DateTime get createdAt => getField<DateTime>('created_at')!;
-  set createdAt(DateTime value) => setField<DateTime>('created_at', value);
+  DateTime? get createdAt => getField<DateTime>('created_at');
+  set createdAt(DateTime? value) => setField<DateTime>('created_at', value);
 
   String? get priority => getField<String>('priority');
   set priority(String? value) => setField<String>('priority', value);
@@ -36,4 +36,10 @@ class TaskRow extends SupabaseDataRow {
 
   String? get userId => getField<String>('user_id');
   set userId(String? value) => setField<String>('user_id', value);
+
+  bool? get notified => getField<bool>('notified');
+  set notified(bool? value) => setField<bool>('notified', value);
+
+  int? get associatedNote => getField<int>('associated_note');
+  set associatedNote(int? value) => setField<int>('associated_note', value);
 }

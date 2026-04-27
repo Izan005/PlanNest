@@ -78,6 +78,12 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInSelectedNoteIds(int index, int value) {
     selectedNoteIds.insert(index, value);
   }
+
+  String _onesignalAppId = '63ab18a7-f273-448e-b08f-50162d431705';
+  String get onesignalAppId => _onesignalAppId;
+  set onesignalAppId(String value) {
+    _onesignalAppId = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {
