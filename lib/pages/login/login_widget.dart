@@ -793,14 +793,6 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               .userDb
                                                               ?.firstOrNull
                                                               ?.username,
-                                                          score: _model
-                                                              .userDb
-                                                              ?.firstOrNull
-                                                              ?.score,
-                                                          taskStrike: _model
-                                                              .userDb
-                                                              ?.firstOrNull
-                                                              ?.taskStrike,
                                                           email:
                                                               currentUserEmail,
                                                         );
@@ -1589,14 +1581,6 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               .createdUserDb
                                                               ?.firstOrNull
                                                               ?.username,
-                                                          score: _model
-                                                              .createdUserDb
-                                                              ?.firstOrNull
-                                                              ?.score,
-                                                          taskStrike: _model
-                                                              .createdUserDb
-                                                              ?.firstOrNull
-                                                              ?.taskStrike,
                                                           email:
                                                               currentUserEmail,
                                                         );

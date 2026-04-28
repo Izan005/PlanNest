@@ -40,6 +40,6 @@ class TaskRow extends SupabaseDataRow {
   bool? get notified => getField<bool>('notified');
   set notified(bool? value) => setField<bool>('notified', value);
 
-  int? get associatedNote => getField<int>('associated_note');
-  set associatedNote(int? value) => setField<int>('associated_note', value);
+  String? get isEdit => getField<String>('isEdit');
+  set isEdit(String? value) => setField<String>('isEdit', value);
 }

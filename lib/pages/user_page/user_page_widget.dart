@@ -1,7 +1,6 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/components/edit_profile_modal/edit_profile_modal_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -1338,22 +1337,6 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                                       .headlineMedium
                                                       .fontStyle,
                                             ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 0.0),
-                                        child: FlutterFlowIconButton(
-                                          borderRadius: 40.0,
-                                          buttonSize: 40.0,
-                                          icon: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.white,
-                                            size: 24.0,
-                                          ),
-                                          onPressed: () async {
-                                            context.safePop();
-                                          },
-                                        ),
                                       ),
                                     ],
                                   ),

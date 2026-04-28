@@ -1,0 +1,27 @@
+// Automatic FlutterFlow imports
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import 'index.dart'; // Imports other custom actions
+import '/flutter_flow/custom_functions.dart'; // Imports custom functions
+import 'package:flutter/material.dart';
+// Begin custom action code
+// DO NOT REMOVE OR MODIFY THE CODE ABOVE!
+
+Future<List<TaskRow>> showSharedTasks(String userId) async {
+  // Add your function code here!
+  final supabase = Supabase.instance.client;
+
+  final res = await supabase.rpc(
+    'get_accepted_shared_tasks',
+    params: {'my_guest_id': userId},
+  );
+
+  final List<dynamic> data = res as List<dynamic>;
+
+  return data
+      .map((item) => TaskRow(item as Map<String, dynamic>))
+      .toList()
+      .cast<TaskRow>();
+}

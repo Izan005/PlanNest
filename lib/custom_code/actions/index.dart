@@ -6,3 +6,4 @@ export 'insert_shared_items.dart' show insertSharedItems;
 export 'get_notifications.dart' show getNotifications;
 export 'connect_realtime.dart' show connectRealtime;
 export 'disconnect_realtime.dart' show disconnectRealtime;
+export 'show_shared_tasks.dart' show showSharedTasks;

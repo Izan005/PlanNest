@@ -20,12 +20,6 @@ class UserRow extends SupabaseDataRow {
   String? get username => getField<String>('username');
   set username(String? value) => setField<String>('username', value);
 
-  int? get score => getField<int>('score');
-  set score(int? value) => setField<int>('score', value);
-
-  int? get taskStrike => getField<int>('task_strike');
-  set taskStrike(int? value) => setField<int>('task_strike', value);
-
   DateTime? get updatedAt => getField<DateTime>('updated_at');
   set updatedAt(DateTime? value) => setField<DateTime>('updated_at', value);
 

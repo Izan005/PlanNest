@@ -20,11 +20,13 @@ class NotePreviewCardWidget extends StatefulWidget {
     required this.note,
     required this.multipleSelected,
     this.callback,
+    required this.targetPage,
   });
 
   final NoteRow? note;
   final bool? multipleSelected;
   final Future Function()? callback;
+  final int? targetPage;
 
   @override
   State<NotePreviewCardWidget> createState() => _NotePreviewCardWidgetState();
@@ -294,57 +296,64 @@ class _NotePreviewCardWidgetState extends State<NotePreviewCardWidget>
                   ),
                 ),
               ),
-              if (widget.multipleSelected == true)
-                Align(
-                  alignment: AlignmentDirectional(1.0, -1.0),
-                  child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 10.0, 0.0),
-                    child: Container(
-                      width: 20.0,
-                      height: 20.0,
-                      decoration: BoxDecoration(
-                        color: functions.checkboxColor(_model.checkboxState,
-                            FFAppState().selectedNoteIds.length),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Color(0xFFA1A1A1),
-                          width: 2.0,
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (widget.multipleSelected ?? true)
+                    Align(
+                      alignment: AlignmentDirectional(1.0, -1.0),
+                      child: FlutterFlowIconButton(
+                        borderRadius: 8.0,
+                        buttonSize: 40.0,
+                        fillColor: Color(0x004B39EF),
+                        icon: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        onPressed: () async {
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Color(0x387A7A7A),
+                            enableDrag: false,
+                            context: context,
+                            builder: (context) {
+                              return Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: AddMembersCardWidget(
+                                  note: widget.note,
+                                  targetPage: widget.targetPage!,
+                                ),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
+                        },
+                      ),
+                    ),
+                  if (widget.multipleSelected == true)
+                    Align(
+                      alignment: AlignmentDirectional(1.0, -1.0),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            0.0, 10.0, 10.0, 0.0),
+                        child: Container(
+                          width: 20.0,
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                            color: functions.checkboxColor(_model.checkboxState,
+                                FFAppState().selectedNoteIds.length),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color(0xFFA1A1A1),
+                              width: 2.0,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              if (!widget.multipleSelected!)
-                Align(
-                  alignment: AlignmentDirectional(1.0, -1.0),
-                  child: FlutterFlowIconButton(
-                    borderRadius: 8.0,
-                    buttonSize: 40.0,
-                    fillColor: Color(0x004B39EF),
-                    icon: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                    onPressed: () async {
-                      await showModalBottomSheet(
-                        isScrollControlled: true,
-                        backgroundColor: Color(0x387A7A7A),
-                        enableDrag: false,
-                        context: context,
-                        builder: (context) {
-                          return Padding(
-                            padding: MediaQuery.viewInsetsOf(context),
-                            child: AddMembersCardWidget(
-                              note: widget.note,
-                            ),
-                          );
-                        },
-                      ).then((value) => safeSetState(() {}));
-                    },
-                  ),
-                ),
+                ],
+              ),
             ],
           ),
         ),

@@ -28,4 +28,7 @@ class NoteRow extends SupabaseDataRow {
 
   String? get userId => getField<String>('user_id');
   set userId(String? value) => setField<String>('user_id', value);
+
+  String? get isEdit => getField<String>('isEdit');
+  set isEdit(String? value) => setField<String>('isEdit', value);
 }

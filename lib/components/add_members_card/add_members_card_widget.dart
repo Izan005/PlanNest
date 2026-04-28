@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -25,10 +26,12 @@ class AddMembersCardWidget extends StatefulWidget {
     super.key,
     this.task,
     this.note,
+    required this.targetPage,
   });
 
   final TaskRow? task;
   final NoteRow? note;
+  final int? targetPage;
 
   @override
   State<AddMembersCardWidget> createState() => _AddMembersCardWidgetState();
@@ -701,6 +704,17 @@ class _AddMembersCardWidgetState extends State<AddMembersCardWidget>
                                 widget.note?.id),
                           );
                           Navigator.pop(context);
+
+                          context.pushNamed(
+                            HomePageWidget.routeName,
+                            queryParameters: {
+                              'targetPage': serializeParam(
+                                widget.targetPage,
+                                ParamType.int,
+                              ),
+                            }.withoutNulls,
+                          );
+
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

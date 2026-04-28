@@ -333,7 +333,7 @@ class _NotificationsListWidgetState extends State<NotificationsListWidget>
                             ),
                             back: Container(
                               width: double.infinity,
-                              height: 80.0,
+                              height: 90.0,
                               decoration: BoxDecoration(
                                 color: Color(0xFF14181B),
                                 borderRadius: BorderRadius.circular(24.0),

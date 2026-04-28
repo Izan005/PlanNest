@@ -15,9 +15,11 @@ class FocusedTaskWidget extends StatefulWidget {
   const FocusedTaskWidget({
     super.key,
     required this.task,
+    required this.targetPage,
   });
 
   final TaskRow? task;
+  final int? targetPage;
 
   @override
   State<FocusedTaskWidget> createState() => _FocusedTaskWidgetState();
@@ -547,9 +549,6 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                             .fontStyle,
                                       ),
                                   elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFF4F4F4),
-                                  ),
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                               ),
@@ -594,9 +593,6 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                             .fontStyle,
                                       ),
                                   elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFF4F4F4),
-                                  ),
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                               ),
@@ -641,9 +637,6 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                             .fontStyle,
                                       ),
                                   elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFF4F4F4),
-                                  ),
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                               ),
@@ -821,7 +814,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                           HomePageWidget.routeName,
                           queryParameters: {
                             'targetPage': serializeParam(
-                              1,
+                              widget.targetPage,
                               ParamType.int,
                             ),
                           }.withoutNulls,
@@ -875,6 +868,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                             'task_name': _model.textController.text,
                             'expiration_date':
                                 supaSerialize<DateTime>(_model.fechaLimite),
+                            'isEdit': null,
                           },
                           matchingRows: (rows) => rows.eqOrNull(
                             'id',
@@ -887,7 +881,7 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                           HomePageWidget.routeName,
                           queryParameters: {
                             'targetPage': serializeParam(
-                              1,
+                              widget.targetPage,
                               ParamType.int,
                             ),
                           }.withoutNulls,
@@ -920,6 +914,15 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                     hoverColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () async {
+                      await TaskTable().update(
+                        data: {
+                          'isEdit': null,
+                        },
+                        matchingRows: (rows) => rows.eqOrNull(
+                          'id',
+                          widget.task?.id,
+                        ),
+                      );
                       Navigator.pop(context);
                     },
                     child: Icon(

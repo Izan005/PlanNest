@@ -175,25 +175,29 @@ class _EditProfileModalWidgetState extends State<EditProfileModalWidget>
                       ].divide(SizedBox(height: 8.0)),
                     ),
                   ),
-                  Text(
-                    'Editar perfil',
-                    style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          font: GoogleFonts.interTight(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .headlineSmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .headlineSmall
-                                .fontStyle,
-                          ),
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .headlineSmall
-                              .fontWeight,
-                          fontStyle: FlutterFlowTheme.of(context)
-                              .headlineSmall
-                              .fontStyle,
-                        ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                    child: Text(
+                      'Editar perfil',
+                      style:
+                          FlutterFlowTheme.of(context).headlineSmall.override(
+                                font: GoogleFonts.interTight(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .headlineSmall
+                                      .fontStyle,
+                                ),
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .headlineSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .headlineSmall
+                                    .fontStyle,
+                              ),
+                    ),
                   ),
                 ],
               ),
@@ -656,99 +660,113 @@ class _EditProfileModalWidgetState extends State<EditProfileModalWidget>
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FFButtonWidget(
-                    onPressed: () async {
-                      Function() _navigate = () {};
-                      await Future.wait([
-                        Future(() async {
-                          if (_model.usernameTextController.text != '') {
-                            await UserTable().update(
-                              data: {
-                                'username': _model.usernameTextController.text,
-                              },
-                              matchingRows: (rows) => rows.eqOrNull(
-                                'id',
-                                FFAppState().userLogged.id,
-                              ),
-                            );
-                            FFAppState().updateUserLoggedStruct(
-                              (e) => e
-                                ..username = _model.usernameTextController.text,
-                            );
-                            safeSetState(() {});
-                            _model.nullUser = false;
-                            safeSetState(() {});
-                          } else {
-                            _model.nullUser = true;
-                            safeSetState(() {});
-                          }
-                        }),
-                        Future(() async {
-                          if ((_model.passwordCreateTextController.text !=
-                                      '') &&
-                              (_model.passwordConfirmTextController.text !=
-                                      '')) {
-                            if (_model.passwordCreateTextController.text ==
-                                _model.passwordConfirmTextController.text) {
-                              if (functions.passLengthVerification(_model
-                                      .passwordCreateTextController.text) ==
-                                  true) {
-                                await authManager.updatePassword(
-                                  newPassword:
-                                      _model.passwordCreateTextController.text,
-                                  context: context,
-                                );
-                                safeSetState(() {});
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        Function() _navigate = () {};
+                        await Future.wait([
+                          Future(() async {
+                            if (_model.usernameTextController.text != '') {
+                              await UserTable().update(
+                                data: {
+                                  'username':
+                                      _model.usernameTextController.text,
+                                },
+                                matchingRows: (rows) => rows.eqOrNull(
+                                  'id',
+                                  FFAppState().userLogged.id,
+                                ),
+                              );
+                              FFAppState().updateUserLoggedStruct(
+                                (e) => e
+                                  ..username =
+                                      _model.usernameTextController.text,
+                              );
+                              safeSetState(() {});
+                              _model.nullUser = false;
+                              safeSetState(() {});
+                            } else {
+                              _model.nullUser = true;
+                              safeSetState(() {});
+                            }
+                          }),
+                          Future(() async {
+                            if ((_model.passwordCreateTextController.text !=
+                                        '') &&
+                                (_model.passwordConfirmTextController.text !=
+                                        '')) {
+                              if (_model.passwordCreateTextController.text ==
+                                  _model.passwordConfirmTextController.text) {
+                                if (functions.passLengthVerification(_model
+                                        .passwordCreateTextController.text) ==
+                                    true) {
+                                  await authManager.updatePassword(
+                                    newPassword: _model
+                                        .passwordCreateTextController.text,
+                                    context: context,
+                                  );
+                                  safeSetState(() {});
+                                } else {
+                                  _model.pass6Length = false;
+                                  safeSetState(() {});
+                                }
                               } else {
-                                _model.pass6Length = false;
+                                _model.passEquals = false;
                                 safeSetState(() {});
                               }
                             } else {
-                              _model.passEquals = false;
+                              _model.passEquals = true;
+                              _model.pass6Length = true;
                               safeSetState(() {});
                             }
-                          } else {
-                            _model.passEquals = true;
-                            _model.pass6Length = true;
-                            safeSetState(() {});
-                          }
-                        }),
-                      ]);
-                      if (_model.nullUser != true) {
-                        if (_model.pass6Length == false) {
-                          if (_model.passEquals != false) {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '¡Perfil actualizado!',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                          }),
+                        ]);
+                        if (_model.nullUser != true) {
+                          if (_model.pass6Length == false) {
+                            if (_model.passEquals != false) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '¡Perfil actualizado!',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
                                 ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
+                              );
+                            }
                           }
                         }
-                      }
 
-                      _navigate();
-                    },
-                    text: 'Guardar Cambios',
-                    options: FFButtonOptions(
-                      width: double.infinity,
-                      height: 52.0,
-                      padding: EdgeInsets.all(8.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: Color(0x004B39EF),
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                font: GoogleFonts.interTight(
+                        _navigate();
+                      },
+                      text: 'Guardar Cambios',
+                      options: FFButtonOptions(
+                        width: double.infinity,
+                        height: 52.0,
+                        padding: EdgeInsets.all(8.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: Color(0x004B39EF),
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .fontWeight,
@@ -756,21 +774,13 @@ class _EditProfileModalWidgetState extends State<EditProfileModalWidget>
                                       .titleSmall
                                       .fontStyle,
                                 ),
-                                color: Colors.white,
-                                letterSpacing: 0.0,
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .fontStyle,
-                              ),
-                      elevation: 0.0,
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 1.0,
+                        elevation: 0.0,
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(26.0),
                       ),
-                      borderRadius: BorderRadius.circular(26.0),
                     ),
                   ),
                 ].divide(SizedBox(height: 12.0)),
