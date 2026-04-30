@@ -8,6 +8,7 @@ import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'focused_task_model.dart';
 export 'focused_task_model.dart';
 
@@ -16,10 +17,12 @@ class FocusedTaskWidget extends StatefulWidget {
     super.key,
     required this.task,
     required this.targetPage,
+    required this.isOwner,
   });
 
   final TaskRow? task;
   final int? targetPage;
+  final bool? isOwner;
 
   @override
   State<FocusedTaskWidget> createState() => _FocusedTaskWidgetState();
@@ -62,6 +65,8 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Stack(
       children: [
         Align(
@@ -645,97 +650,90 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 20.0, 12.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          if (widget.task!.expirationDate! >
-                              getCurrentTimestamp) {
-                            await TaskTable().update(
-                              data: {
-                                'completed_at_time': true,
-                              },
-                              matchingRows: (rows) => rows.eqOrNull(
-                                'id',
-                                widget.task?.id,
-                              ),
-                            );
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '¡Tarea realizada a tiempo!',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
+                    if (widget.isOwner ?? true)
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            12.0, 20.0, 12.0, 0.0),
+                        child: FFButtonWidget(
+                          onPressed: () async {
+                            if (widget.task!.expirationDate! >
+                                getCurrentTimestamp) {
+                              await TaskTable().update(
+                                data: {
+                                  'completed_at_time': true,
+                                },
+                                matchingRows: (rows) => rows.eqOrNull(
+                                  'id',
+                                  widget.task?.id,
                                 ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
-                          } else {
-                            await TaskTable().update(
-                              data: {
-                                'completed_at_time': false,
-                              },
-                              matchingRows: (rows) => rows.eqOrNull(
-                                'id',
-                                widget.task?.id,
-                              ),
-                            );
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Tarea realizada con retraso',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).warning,
-                              ),
-                            );
-                          }
-
-                          Navigator.pop(context);
-
-                          context.pushNamed(
-                            HomePageWidget.routeName,
-                            queryParameters: {
-                              'targetPage': serializeParam(
-                                1,
-                                ParamType.int,
-                              ),
-                            }.withoutNulls,
-                          );
-                        },
-                        text: 'Realizar Tarea',
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: Color(0x004B39EF),
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.interTight(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
+                              );
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '¡Tarea realizada a tiempo!',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
                                     ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+                            } else {
+                              await TaskTable().update(
+                                data: {
+                                  'completed_at_time': false,
+                                },
+                                matchingRows: (rows) => rows.eqOrNull(
+                                  'id',
+                                  widget.task?.id,
+                                ),
+                              );
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Tarea realizada con retraso',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).warning,
+                                ),
+                              );
+                            }
+
+                            Navigator.pop(context);
+
+                            context.pushNamed(
+                              HomePageWidget.routeName,
+                              queryParameters: {
+                                'targetPage': serializeParam(
+                                  1,
+                                  ParamType.int,
+                                ),
+                              }.withoutNulls,
+                            );
+                          },
+                          text: 'Realizar Tarea',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: Color(0x004B39EF),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.interTight(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -743,14 +741,23 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                          elevation: 0.0,
-                          borderSide: BorderSide(
-                            color: Colors.white,
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                          borderRadius: BorderRadius.circular(20.0),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -772,75 +779,160 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      var confirmDialogResponse = await showDialog<bool>(
-                            context: context,
-                            builder: (alertDialogContext) {
-                              return AlertDialog(
-                                title: Text('Eliminar Tarea'),
-                                content:
-                                    Text('Se eliminará la tarea seleccionada'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(
-                                        alertDialogContext, false),
-                                    child: Text('Cancelar'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(alertDialogContext, true),
-                                    child: Text('Confirmar'),
-                                  ),
-                                ],
-                              );
+                  if (widget.isOwner == false)
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        var confirmDialogResponse = await showDialog<bool>(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: Text('Abandonar Tarea'),
+                                  content: Text(
+                                      'Vas a abandonar la tarea actual. ¿Estás seguro?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          alertDialogContext, false),
+                                      child: Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          alertDialogContext, true),
+                                      child: Text('Confirmar'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ) ??
+                            false;
+                        if (confirmDialogResponse) {
+                          await SharedItemsTable().delete(
+                            matchingRows: (rows) => rows
+                                .eqOrNull(
+                                  'task_id',
+                                  widget.task?.id,
+                                )
+                                .eqOrNull(
+                                  'guest_id',
+                                  FFAppState().userLogged.id,
+                                ),
+                          );
+                          await TaskTable().update(
+                            data: {
+                              'isEdit': null,
                             },
-                          ) ??
-                          false;
-                      if (confirmDialogResponse) {
-                        await TaskTable().delete(
-                          matchingRows: (rows) => rows.eqOrNull(
-                            'id',
-                            widget.task?.id,
-                          ),
-                        );
-                        Navigator.pop(context);
-
-                        context.pushNamed(
-                          HomePageWidget.routeName,
-                          queryParameters: {
-                            'targetPage': serializeParam(
-                              widget.targetPage,
-                              ParamType.int,
+                            matchingRows: (rows) => rows.eqOrNull(
+                              'id',
+                              widget.task?.id,
                             ),
-                          }.withoutNulls,
-                        );
+                          );
+                          Navigator.pop(context);
 
-                        ScaffoldMessenger.of(context).clearSnackBars();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Se ha eliminado una tarea',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
+                          context.pushNamed(
+                            HomePageWidget.routeName,
+                            queryParameters: {
+                              'targetPage': serializeParam(
+                                widget.targetPage,
+                                ParamType.int,
                               ),
+                            }.withoutNulls,
+                          );
+
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Se ha abandonado una tarea',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor: Colors.black,
                             ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor: Colors.black,
-                          ),
-                        );
-                      }
-                    },
-                    child: Icon(
-                      Icons.delete,
-                      color: FlutterFlowTheme.of(context).error,
-                      size: 24.0,
+                          );
+                        }
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: FlutterFlowTheme.of(context).error,
+                        size: 24.0,
+                      ),
                     ),
-                  ),
+                  if (widget.isOwner == true)
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        var confirmDialogResponse = await showDialog<bool>(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: Text('Eliminar Tarea'),
+                                  content: Text(
+                                      'Se eliminará la tarea seleccionada'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          alertDialogContext, false),
+                                      child: Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          alertDialogContext, true),
+                                      child: Text('Confirmar'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ) ??
+                            false;
+                        if (confirmDialogResponse) {
+                          await TaskTable().delete(
+                            matchingRows: (rows) => rows.eqOrNull(
+                              'id',
+                              widget.task?.id,
+                            ),
+                          );
+                          Navigator.pop(context);
+
+                          context.pushNamed(
+                            HomePageWidget.routeName,
+                            queryParameters: {
+                              'targetPage': serializeParam(
+                                widget.targetPage,
+                                ParamType.int,
+                              ),
+                            }.withoutNulls,
+                          );
+
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Se ha eliminado una tarea',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor: Colors.black,
+                            ),
+                          );
+                        }
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        color: FlutterFlowTheme.of(context).error,
+                        size: 24.0,
+                      ),
+                    ),
                   InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,

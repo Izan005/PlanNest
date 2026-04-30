@@ -41,7 +41,7 @@ Color prioridadSeleccionada(
 }
 
 String primeraLetraUser(String user) {
-  return user.split("")[0].toUpperCase();
+  return user.trim().split("")[0].toUpperCase();
 }
 
 double bottomCardMover(
@@ -103,7 +103,9 @@ dynamic formatSharedItemsToJson(
 }
 
 bool passLengthVerification(String pass) {
-  if (pass.length >= 6) return true;
+  if (pass.length >= 6) {
+    return true;
+  }
 
   return false;
 }

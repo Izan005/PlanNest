@@ -7,3 +7,6 @@ export 'get_notifications.dart' show getNotifications;
 export 'connect_realtime.dart' show connectRealtime;
 export 'disconnect_realtime.dart' show disconnectRealtime;
 export 'show_shared_tasks.dart' show showSharedTasks;
+export 'show_shared_notes.dart' show showSharedNotes;
+export 'get_connected_users_stat.dart' show getConnectedUsersStat;
+export 'get_shared_items_count.dart' show getSharedItemsCount;

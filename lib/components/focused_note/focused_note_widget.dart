@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'focused_note_model.dart';
 export 'focused_note_model.dart';
 
@@ -12,9 +13,13 @@ class FocusedNoteWidget extends StatefulWidget {
   const FocusedNoteWidget({
     super.key,
     required this.note,
-  });
+    bool? isOwner,
+    required this.targetPage,
+  }) : this.isOwner = isOwner ?? true;
 
   final NoteRow? note;
+  final bool isOwner;
+  final int? targetPage;
 
   @override
   State<FocusedNoteWidget> createState() => _FocusedNoteWidgetState();
@@ -51,6 +56,8 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       height: double.infinity,
       child: Stack(
@@ -625,76 +632,161 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        var confirmDialogResponse = await showDialog<bool>(
-                              context: context,
-                              builder: (alertDialogContext) {
-                                return AlertDialog(
-                                  title: Text('Eliminar Nota'),
-                                  content:
-                                      Text('Se eliminará la nota seleccionada'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(
-                                          alertDialogContext, false),
-                                      child: Text('Cancelar'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(
-                                          alertDialogContext, true),
-                                      child: Text('Confirmar'),
-                                    ),
-                                  ],
-                                );
+                    if (!widget.isOwner)
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          var confirmDialogResponse = await showDialog<bool>(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('Abandonar Nota'),
+                                    content: Text(
+                                        'Vas a abandonar la nota actual. ¿Estás seguro?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, false),
+                                        child: Text('Cancelar'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, true),
+                                        child: Text('Confirmar'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+                          if (confirmDialogResponse) {
+                            await SharedItemsTable().delete(
+                              matchingRows: (rows) => rows
+                                  .eqOrNull(
+                                    'note_id',
+                                    widget.note?.id,
+                                  )
+                                  .eqOrNull(
+                                    'guest_id',
+                                    FFAppState().userLogged.id,
+                                  ),
+                            );
+                            await NoteTable().update(
+                              data: {
+                                'isEdit': null,
                               },
-                            ) ??
-                            false;
-                        if (confirmDialogResponse) {
-                          await NoteTable().delete(
-                            matchingRows: (rows) => rows.eqOrNull(
-                              'id',
-                              widget.note?.id,
-                            ),
-                          );
-                          Navigator.pop(context);
-
-                          context.pushNamed(
-                            HomePageWidget.routeName,
-                            queryParameters: {
-                              'targetPage': serializeParam(
-                                2,
-                                ParamType.int,
+                              matchingRows: (rows) => rows.eqOrNull(
+                                'id',
+                                widget.note?.id,
                               ),
-                            }.withoutNulls,
-                          );
+                            );
+                            Navigator.pop(context);
 
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Se ha eliminado una nota',
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                            context.pushNamed(
+                              HomePageWidget.routeName,
+                              queryParameters: {
+                                'targetPage': serializeParam(
+                                  widget.targetPage,
+                                  ParamType.int,
                                 ),
+                              }.withoutNulls,
+                            );
+
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Se ha abandonado una tarea',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor: Colors.black,
                               ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Colors.black,
-                            ),
-                          );
-                        }
-                      },
-                      child: Icon(
-                        Icons.delete,
-                        color: FlutterFlowTheme.of(context).error,
-                        size: 24.0,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: FlutterFlowTheme.of(context).error,
+                          size: 24.0,
+                        ),
                       ),
-                    ),
+                    if (widget.isOwner)
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          var confirmDialogResponse = await showDialog<bool>(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('Eliminar Nota'),
+                                    content: Text(
+                                        'Se eliminará la nota seleccionada'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, false),
+                                        child: Text('Cancelar'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, true),
+                                        child: Text('Confirmar'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+                          if (confirmDialogResponse) {
+                            await NoteTable().delete(
+                              matchingRows: (rows) => rows.eqOrNull(
+                                'id',
+                                widget.note?.id,
+                              ),
+                            );
+                            Navigator.pop(context);
+
+                            context.pushNamed(
+                              HomePageWidget.routeName,
+                              queryParameters: {
+                                'targetPage': serializeParam(
+                                  2,
+                                  ParamType.int,
+                                ),
+                              }.withoutNulls,
+                            );
+
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Se ha eliminado una nota',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor: Colors.black,
+                              ),
+                            );
+                          }
+                        },
+                        child: Icon(
+                          Icons.delete,
+                          color: FlutterFlowTheme.of(context).error,
+                          size: 24.0,
+                        ),
+                      ),
                     InkWell(
                       splashColor: Colors.transparent,
                       focusColor: Colors.transparent,
@@ -721,6 +813,15 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                             data: {
                               'title': _model.textController1.text,
                               'text': _model.textController2.text,
+                            },
+                            matchingRows: (rows) => rows.eqOrNull(
+                              'id',
+                              widget.note?.id,
+                            ),
+                          );
+                          await NoteTable().update(
+                            data: {
+                              'isEdit': null,
                             },
                             matchingRows: (rows) => rows.eqOrNull(
                               'id',
@@ -768,6 +869,15 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                       highlightColor: Colors.transparent,
                       onTap: () async {
                         Navigator.pop(context);
+                        await NoteTable().update(
+                          data: {
+                            'isEdit': null,
+                          },
+                          matchingRows: (rows) => rows.eqOrNull(
+                            'id',
+                            widget.note?.id,
+                          ),
+                        );
                       },
                       child: Icon(
                         Icons.cancel,

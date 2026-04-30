@@ -47,6 +47,15 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   void updateSharedTasksAtIndex(int index, Function(TaskRow) updateFn) =>
       sharedTasks[index] = updateFn(sharedTasks[index]);
 
+  List<NoteRow> sharedNotes = [];
+  void addToSharedNotes(NoteRow item) => sharedNotes.add(item);
+  void removeFromSharedNotes(NoteRow item) => sharedNotes.remove(item);
+  void removeAtIndexFromSharedNotes(int index) => sharedNotes.removeAt(index);
+  void insertAtIndexInSharedNotes(int index, NoteRow item) =>
+      sharedNotes.insert(index, item);
+  void updateSharedNotesAtIndex(int index, Function(NoteRow) updateFn) =>
+      sharedNotes[index] = updateFn(sharedNotes[index]);
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Backend Call - Query Rows] action in HomePage widget.
@@ -64,6 +73,12 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   // Stores action output result for [Custom Action - showSharedTasks] action in HomePage widget.
   List<TaskRow>? sharedTasksDb1;
   Completer<List<UserRow>>? requestCompleter;
+  // Stores action output result for [Custom Action - showSharedNotes] action in HomePage widget.
+  List<NoteRow>? sharedNotesDb;
+  // Stores action output result for [Backend Call - Query Rows] action in HomePage widget.
+  List<NoteRow>? notasUserDb1;
+  // Stores action output result for [Custom Action - showSharedNotes] action in HomePage widget.
+  List<NoteRow>? sharedNotesDb1;
   // Model for TopBar component.
   late TopBarModel topBarModel;
   // State field(s) for PageView widget.
@@ -82,6 +97,12 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
       choiceChipsValueController?.value = val != null ? [val] : [];
   // Stores action output result for [Custom Action - showSharedTasks] action in ListView widget.
   List<TaskRow>? sharedTasksDbRefresh;
+  // Models for TaskComponent dynamic component.
+  late FlutterFlowDynamicModels<TaskComponentModel> taskComponentModels1;
+  // Stores action output result for [Custom Action - showSharedNotes] action in GridView widget.
+  List<NoteRow>? sharedNotesDbRefresh;
+  // Models for NotePreviewCard dynamic component.
+  late FlutterFlowDynamicModels<NotePreviewCardModel> notePreviewCardModels1;
   // Stores action output result for [Backend Call - Query Rows] action in ListView widget.
   List<TaskRow>? tareasUserDbRefresh;
   // Models for TaskComponent dynamic component.
@@ -91,16 +112,19 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   // Stores action output result for [Backend Call - Query Rows] action in GridView widget.
   List<NoteRow>? notasDbRefresh;
   // Models for NotePreviewCard dynamic component.
-  late FlutterFlowDynamicModels<NotePreviewCardModel> notePreviewCardModels;
+  late FlutterFlowDynamicModels<NotePreviewCardModel> notePreviewCardModels2;
   // Model for BottomCardNote component.
   late BottomCardNoteModel bottomCardNoteModel;
 
   @override
   void initState(BuildContext context) {
     topBarModel = createModel(context, () => TopBarModel());
+    taskComponentModels1 = FlutterFlowDynamicModels(() => TaskComponentModel());
+    notePreviewCardModels1 =
+        FlutterFlowDynamicModels(() => NotePreviewCardModel());
     taskComponentModels2 = FlutterFlowDynamicModels(() => TaskComponentModel());
     bottomCardTaskModel = createModel(context, () => BottomCardTaskModel());
-    notePreviewCardModels =
+    notePreviewCardModels2 =
         FlutterFlowDynamicModels(() => NotePreviewCardModel());
     bottomCardNoteModel = createModel(context, () => BottomCardNoteModel());
   }
@@ -108,9 +132,11 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   @override
   void dispose() {
     topBarModel.dispose();
+    taskComponentModels1.dispose();
+    notePreviewCardModels1.dispose();
     taskComponentModels2.dispose();
     bottomCardTaskModel.dispose();
-    notePreviewCardModels.dispose();
+    notePreviewCardModels2.dispose();
     bottomCardNoteModel.dispose();
   }
 

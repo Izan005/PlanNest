@@ -1,5 +1,6 @@
 import '/backend/schema/structs/index.dart';
 import '/backend/supabase/supabase.dart';
+import '/components/added_member_item/added_member_item_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'add_members_card_widget.dart' show AddMembersCardWidget;
 import 'package:flutter/material.dart';
@@ -24,13 +25,20 @@ class AddMembersCardModel extends FlutterFlowModel<AddMembersCardWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // Models for AddedMemberItem dynamic component.
+  late FlutterFlowDynamicModels<AddedMemberItemModel> addedMemberItemModels;
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    addedMemberItemModels =
+        FlutterFlowDynamicModels(() => AddedMemberItemModel());
+  }
 
   @override
   void dispose() {
     textFieldFocusNode?.dispose();
     textController?.dispose();
+
+    addedMemberItemModels.dispose();
   }
 }

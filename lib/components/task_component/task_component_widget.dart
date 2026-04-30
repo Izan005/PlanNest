@@ -137,6 +137,7 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                           child: FocusedTaskWidget(
                             task: widget.tarea!,
                             targetPage: widget.targetPage!,
+                            isOwner: widget.isOwner!,
                           ),
                         ),
                       );

@@ -107,48 +107,102 @@ class _HomePageWidgetState extends State<HomePageWidget>
       _model.notasUser = _model.notasDb!.toList().cast<NoteRow>();
       _model.totalSelected = FFAppState().selectedNoteIds.length;
       safeSetState(() {});
-      _model.sharedTasksDb = await actions.showSharedTasks(
-        FFAppState().userLogged.id,
-      );
-      await actions.disconnectRealtime(
-        'task',
-      );
-      await Future.delayed(
-        Duration(
-          milliseconds: 1000,
-        ),
-      );
-      await actions.connectRealtime(
-        'task',
-        () async {
-          safeSetState(() => _model.requestCompleter = null);
-          await _model.waitForRequestCompleted();
-          _model.sharedTasksDb1 = await actions.showSharedTasks(
+      await Future.wait([
+        Future(() async {
+          _model.sharedTasksDb = await actions.showSharedTasks(
             FFAppState().userLogged.id,
           );
-          _model.tareasUserDb1 = await TaskTable().queryRows(
-            queryFn: (q) => q
-                .eqOrNull(
-                  'user_id',
-                  FFAppState().userLogged.id,
-                )
-                .isFilter(
-                  'completed_at_time',
-                  null,
-                )
-                .order('expiration_date')
-                .order('id'),
+          await actions.disconnectRealtime(
+            'task',
           );
-          _model.sharedTasks = _model.sharedTasksDb1!.toList().cast<TaskRow>();
-          _model.tareasUser = _model.tareasUserDb1!.toList().cast<TaskRow>();
-          safeSetState(() {});
-        },
-      );
+          await Future.delayed(
+            Duration(
+              milliseconds: 1000,
+            ),
+          );
+          await actions.connectRealtime(
+            'task',
+            () async {
+              safeSetState(() => _model.requestCompleter = null);
+              await _model.waitForRequestCompleted();
+              _model.sharedTasksDb1 = await actions.showSharedTasks(
+                FFAppState().userLogged.id,
+              );
+              _model.tareasUserDb1 = await TaskTable().queryRows(
+                queryFn: (q) => q
+                    .eqOrNull(
+                      'user_id',
+                      FFAppState().userLogged.id,
+                    )
+                    .isFilter(
+                      'completed_at_time',
+                      null,
+                    )
+                    .order('expiration_date')
+                    .order('id'),
+              );
+              _model.sharedTasks =
+                  _model.sharedTasksDb1!.toList().cast<TaskRow>();
+              _model.tareasUser =
+                  _model.tareasUserDb1!.toList().cast<TaskRow>();
+              safeSetState(() {});
+            },
+          );
+        }),
+        Future(() async {
+          _model.sharedNotesDb = await actions.showSharedNotes(
+            FFAppState().userLogged.id,
+          );
+          await actions.disconnectRealtime(
+            'note',
+          );
+          await Future.delayed(
+            Duration(
+              milliseconds: 1000,
+            ),
+          );
+          await actions.connectRealtime(
+            'note',
+            () async {
+              safeSetState(() => _model.requestCompleter = null);
+              await _model.waitForRequestCompleted();
+              _model.sharedNotesDb1 = await actions.showSharedNotes(
+                FFAppState().userLogged.id,
+              );
+              _model.notasUserDb1 = await NoteTable().queryRows(
+                queryFn: (q) => q
+                    .eqOrNull(
+                      'user_id',
+                      FFAppState().userLogged.id,
+                    )
+                    .order('id'),
+              );
+              _model.sharedNotes =
+                  _model.sharedNotesDb1!.toList().cast<NoteRow>();
+              _model.notasUser = _model.notasUserDb1!.toList().cast<NoteRow>();
+              safeSetState(() {});
+            },
+          );
+        }),
+      ]);
       _model.sharedTasks = _model.sharedTasksDb!.toList().cast<TaskRow>();
+      _model.sharedNotes = _model.sharedNotesDb!.toList().cast<NoteRow>();
       safeSetState(() {});
     });
 
     animationsMap.addAll({
+      'notePreviewCardOnPageLoadAnimation1': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: Offset(-100.0, 0.0),
+            end: Offset(0.0, 0.0),
+          ),
+        ],
+      ),
       'textOnPageLoadAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
@@ -185,7 +239,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
           ),
         ],
       ),
-      'notePreviewCardOnPageLoadAnimation': AnimationInfo(
+      'notePreviewCardOnPageLoadAnimation2': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
         applyInitialState: true,
         effectsBuilder: () => [
@@ -313,99 +367,143 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Align(
-                                alignment: AlignmentDirectional(1.0, -1.0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 10.0, 10.0, 10.0),
-                                  child: FlutterFlowChoiceChips(
-                                    options: [
-                                      ChipData('Tareas'),
-                                      ChipData('Notas')
-                                    ],
-                                    onChanged: (val) => safeSetState(() =>
-                                        _model.choiceChipsValue =
-                                            val?.firstOrNull),
-                                    selectedChipStyle: ChipStyle(
-                                      backgroundColor: Color(0x00FFFFFF),
-                                      textStyle: FlutterFlowTheme.of(context)
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      'Colaboraciones',
+                                      style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
                                             font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
+                                              fontWeight: FontWeight.bold,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .info,
+                                            color: Color(0x91FFFFFF),
+                                            fontSize: 18.0,
                                             letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
+                                            fontWeight: FontWeight.bold,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                      iconColor: Colors.white,
-                                      iconSize: 20.0,
-                                      elevation: 0.0,
-                                      borderColor: Colors.white,
-                                      borderRadius: BorderRadius.circular(12.0),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    unselectedChipStyle: ChipStyle(
-                                      backgroundColor: Color(0x0014181B),
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                      iconColor: Colors.white,
-                                      iconSize: 16.0,
-                                      elevation: 0.0,
-                                      borderColor: Color(0x44FFFFFF),
-                                      borderRadius: BorderRadius.circular(12.0),
-                                    ),
-                                    chipSpacing: 8.0,
-                                    rowSpacing: 8.0,
-                                    multiselect: false,
-                                    initialized:
-                                        _model.choiceChipsValue != null,
-                                    alignment: WrapAlignment.start,
-                                    controller:
-                                        _model.choiceChipsValueController ??=
-                                            FormFieldController<List<String>>(
-                                      ['Tareas'],
-                                    ),
-                                    wrapped: true,
                                   ),
-                                ),
+                                  Align(
+                                    alignment: AlignmentDirectional(1.0, -1.0),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 10.0, 10.0, 10.0),
+                                      child: FlutterFlowChoiceChips(
+                                        options: [
+                                          ChipData('Tareas'),
+                                          ChipData('Notas')
+                                        ],
+                                        onChanged: (val) => safeSetState(() =>
+                                            _model.choiceChipsValue =
+                                                val?.firstOrNull),
+                                        selectedChipStyle: ChipStyle(
+                                          backgroundColor: Color(0x00FFFFFF),
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .info,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                          iconColor: Colors.white,
+                                          iconSize: 20.0,
+                                          elevation: 0.0,
+                                          borderColor: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        unselectedChipStyle: ChipStyle(
+                                          backgroundColor: Color(0x0014181B),
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                          iconColor: Colors.white,
+                                          iconSize: 16.0,
+                                          elevation: 0.0,
+                                          borderColor: Color(0x44FFFFFF),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        chipSpacing: 8.0,
+                                        rowSpacing: 8.0,
+                                        multiselect: false,
+                                        initialized:
+                                            _model.choiceChipsValue != null,
+                                        alignment: WrapAlignment.start,
+                                        controller: _model
+                                                .choiceChipsValueController ??=
+                                            FormFieldController<List<String>>(
+                                          ['Tareas'],
+                                        ),
+                                        wrapped: true,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               if (_model.choiceChipsValue == 'Tareas')
                                 Expanded(
@@ -442,17 +540,142 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                               final sharedTasksListViewItem =
                                                   sharedTasksListView[
                                                       sharedTasksListViewIndex];
-                                              return TaskComponentWidget(
-                                                key: Key(
-                                                    'Key4z0_${sharedTasksListViewIndex}_of_${sharedTasksListView.length}'),
-                                                tarea: sharedTasksListViewItem,
-                                                isOwner: FFAppState()
-                                                        .userLogged
-                                                        .id ==
-                                                    sharedTasksListViewItem
-                                                        .userId,
-                                                targetPage: 0,
+                                              return wrapWithModel(
+                                                model: _model
+                                                    .taskComponentModels1
+                                                    .getModel(
+                                                  sharedTasksListViewItem.id
+                                                      .toString(),
+                                                  sharedTasksListViewIndex,
+                                                ),
+                                                updateCallback: () =>
+                                                    safeSetState(() {}),
+                                                child: TaskComponentWidget(
+                                                  key: Key(
+                                                    'Key4z0_${sharedTasksListViewItem.id.toString()}',
+                                                  ),
+                                                  tarea:
+                                                      sharedTasksListViewItem,
+                                                  isOwner: FFAppState()
+                                                          .userLogged
+                                                          .id ==
+                                                      sharedTasksListViewItem
+                                                          .userId,
+                                                  targetPage: 0,
+                                                ),
                                               );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              if (_model.choiceChipsValue == 'Notas')
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 0.0, 12.0, 0.0),
+                                    child: Builder(
+                                      builder: (context) {
+                                        final sharedNotesGrid =
+                                            _model.sharedNotes.toList();
+
+                                        return RefreshIndicator(
+                                          onRefresh: () async {
+                                            _model.sharedNotesDbRefresh =
+                                                await actions.showSharedNotes(
+                                              FFAppState().userLogged.id,
+                                            );
+                                            _model.sharedNotes = _model
+                                                .sharedNotesDbRefresh!
+                                                .toList()
+                                                .cast<NoteRow>();
+                                            safeSetState(() {});
+                                          },
+                                          child: GridView.builder(
+                                            padding: EdgeInsets.fromLTRB(
+                                              0,
+                                              20.0,
+                                              0,
+                                              140.0,
+                                            ),
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              crossAxisSpacing: 10.0,
+                                              mainAxisSpacing: 10.0,
+                                              childAspectRatio: 1.0,
+                                            ),
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: sharedNotesGrid.length,
+                                            itemBuilder: (context,
+                                                sharedNotesGridIndex) {
+                                              final sharedNotesGridItem =
+                                                  sharedNotesGrid[
+                                                      sharedNotesGridIndex];
+                                              return InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onLongPress: () async {
+                                                  HapticFeedback.heavyImpact();
+                                                  ScaffoldMessenger.of(context)
+                                                      .clearSnackBars();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'No eres el dueño',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                    ),
+                                                  );
+                                                },
+                                                child: wrapWithModel(
+                                                  model: _model
+                                                      .notePreviewCardModels1
+                                                      .getModel(
+                                                    sharedNotesGridIndex
+                                                        .toString(),
+                                                    sharedNotesGridIndex,
+                                                  ),
+                                                  updateCallback: () =>
+                                                      safeSetState(() {}),
+                                                  child: NotePreviewCardWidget(
+                                                    key: Key(
+                                                      'Keykzv_${sharedNotesGridIndex.toString()}',
+                                                    ),
+                                                    note: sharedNotesGridItem,
+                                                    multipleSelected: _model
+                                                        .multipleSelectedNotes,
+                                                    targetPage: 0,
+                                                    isOwner: sharedNotesGridItem
+                                                            .userId ==
+                                                        FFAppState()
+                                                            .userLogged
+                                                            .id,
+                                                    callback: () async {
+                                                      _model.totalSelected =
+                                                          FFAppState()
+                                                              .selectedNoteIds
+                                                              .length;
+                                                      safeSetState(() {});
+                                                    },
+                                                  ),
+                                                ),
+                                              ).animateOnPageLoad(animationsMap[
+                                                  'notePreviewCardOnPageLoadAnimation1']!);
                                             },
                                           ),
                                         );
@@ -902,7 +1125,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                               child:
                                                                   wrapWithModel(
                                                                 model: _model
-                                                                    .notePreviewCardModels
+                                                                    .notePreviewCardModels2
                                                                     .getModel(
                                                                   notasGridIndex
                                                                       .toString(),
@@ -922,6 +1145,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                       _model
                                                                           .multipleSelectedNotes,
                                                                   targetPage: 2,
+                                                                  isOwner: notasGridItem
+                                                                          .userId ==
+                                                                      FFAppState()
+                                                                          .userLogged
+                                                                          .id,
                                                                   callback:
                                                                       () async {
                                                                     _model.totalSelected =
@@ -936,7 +1164,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                             )
                                                                 .animateOnPageLoad(
                                                                     animationsMap[
-                                                                        'notePreviewCardOnPageLoadAnimation']!)
+                                                                        'notePreviewCardOnPageLoadAnimation2']!)
                                                                 .animateOnActionTrigger(
                                                                   animationsMap[
                                                                       'notePreviewCardOnActionTriggerAnimation']!,

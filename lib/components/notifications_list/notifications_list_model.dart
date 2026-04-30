@@ -1,3 +1,4 @@
+import '/components/notification_card/notification_card_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'notifications_list_widget.dart' show NotificationsListWidget;
 import 'package:flutter/material.dart';
@@ -19,10 +20,17 @@ class NotificationsListModel extends FlutterFlowModel<NotificationsListWidget> {
 
   // Stores action output result for [Custom Action - getNotifications] action in NotificationsList widget.
   List<dynamic>? notificationsDb;
+  // Models for NotificationCard dynamic component.
+  late FlutterFlowDynamicModels<NotificationCardModel> notificationCardModels;
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    notificationCardModels =
+        FlutterFlowDynamicModels(() => NotificationCardModel());
+  }
 
   @override
-  void dispose() {}
+  void dispose() {
+    notificationCardModels.dispose();
+  }
 }

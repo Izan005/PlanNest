@@ -17,6 +17,10 @@ class UserPageModel extends FlutterFlowModel<UserPageWidget> {
 
   int? noCompletedTasks;
 
+  int? conectedUsers;
+
+  int? sharedElements;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Backend Call - Query Rows] action in UserPage widget.
@@ -29,10 +33,19 @@ class UserPageModel extends FlutterFlowModel<UserPageWidget> {
   List<TaskRow>? outdatedDb;
   // Stores action output result for [Backend Call - Query Rows] action in UserPage widget.
   List<TaskRow>? noCompletedDb;
+  // Stores action output result for [Custom Action - getConnectedUsersStat] action in UserPage widget.
+  int? connectedUsersDb;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
 
   @override
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
+  }
 }

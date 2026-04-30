@@ -676,15 +676,23 @@ class _AddMembersCardWidgetState extends State<AddMembersCardWidget>
                           itemBuilder: (context, addedMembersGridIndex) {
                             final addedMembersGridItem =
                                 addedMembersGrid[addedMembersGridIndex];
-                            return AddedMemberItemWidget(
-                              key: Key(
-                                  'Keyfxo_${addedMembersGridIndex}_of_${addedMembersGrid.length}'),
-                              user: addedMembersGridItem,
-                              callback: () async {
-                                _model.removeFromAddedMembers(
-                                    addedMembersGridItem);
-                                safeSetState(() {});
-                              },
+                            return wrapWithModel(
+                              model: _model.addedMemberItemModels.getModel(
+                                addedMembersGridIndex.toString(),
+                                addedMembersGridIndex,
+                              ),
+                              updateCallback: () => safeSetState(() {}),
+                              child: AddedMemberItemWidget(
+                                key: Key(
+                                  'Keyfxo_${addedMembersGridIndex.toString()}',
+                                ),
+                                user: addedMembersGridItem,
+                                callback: () async {
+                                  _model.removeFromAddedMembers(
+                                      addedMembersGridItem);
+                                  safeSetState(() {});
+                                },
+                              ),
                             );
                           },
                         );
