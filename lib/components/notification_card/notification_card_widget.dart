@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -91,13 +92,7 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                 width: 44.0,
                 height: 44.0,
                 decoration: BoxDecoration(
-                  color: getJsonField(
-                            widget.notification,
-                            r'''$.task_name''',
-                          ) !=
-                          null
-                      ? Color(0x4C4B39EF)
-                      : Color(0x4CEFB739),
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(22.0),
                 ),
                 alignment: AlignmentDirectional(0.0, 0.0),
@@ -114,13 +109,7 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: Icon(
                             Icons.note,
-                            color: getJsonField(
-                                      widget.notification,
-                                      r'''$.task_name''',
-                                    ) !=
-                                    null
-                                ? Color(0xFF4B39EF)
-                                : Color(0xFFEFA639),
+                            color: Colors.white,
                             size: 20.0,
                           ),
                         ),
@@ -135,13 +124,7 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: FaIcon(
                             FontAwesomeIcons.tasks,
-                            color: getJsonField(
-                                      widget.notification,
-                                      r'''$.task_name''',
-                                    ) !=
-                                    null
-                                ? Color(0xFF4B39EF)
-                                : Color(0xFFEFA639),
+                            color: Colors.white,
                             size: 20.0,
                           ),
                         ),
@@ -249,13 +232,7 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                 width: 44.0,
                 height: 44.0,
                 decoration: BoxDecoration(
-                  color: getJsonField(
-                            widget.notification,
-                            r'''$.task_name''',
-                          ) !=
-                          null
-                      ? Color(0x4C4B39EF)
-                      : Color(0x4CEFB739),
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(22.0),
                 ),
                 alignment: AlignmentDirectional(0.0, 0.0),
@@ -272,13 +249,7 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: Icon(
                             Icons.note,
-                            color: getJsonField(
-                                      widget.notification,
-                                      r'''$.task_name''',
-                                    ) !=
-                                    null
-                                ? Color(0xFF4B39EF)
-                                : Color(0xFFEFA639),
+                            color: Colors.white,
                             size: 20.0,
                           ),
                         ),
@@ -293,13 +264,7 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: FaIcon(
                             FontAwesomeIcons.tasks,
-                            color: getJsonField(
-                                      widget.notification,
-                                      r'''$.task_name''',
-                                    ) !=
-                                    null
-                                ? Color(0xFF4B39EF)
-                                : Color(0xFFEFA639),
+                            color: Colors.white,
                             size: 20.0,
                           ),
                         ),
@@ -360,19 +325,10 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                                   ),
                                 );
                                 await widget.callback?.call();
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Invitación rechazada',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    duration: Duration(milliseconds: 4000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context).error,
-                                  ),
+                                await actions.showToast(
+                                  context,
+                                  'Invitación rechazada',
+                                  'success',
                                 );
                               },
                               text: 'Rechazar',
@@ -428,19 +384,10 @@ class _NotificationCardWidgetState extends State<NotificationCardWidget>
                                   ),
                                 );
                                 await widget.callback?.call();
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Invitación aceptada',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    duration: Duration(milliseconds: 4000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context).secondary,
-                                  ),
+                                await actions.showToast(
+                                  context,
+                                  'Invitación aceptada',
+                                  'success',
                                 );
                               },
                               text: 'Aceptar',

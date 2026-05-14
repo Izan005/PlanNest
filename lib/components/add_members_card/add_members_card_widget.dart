@@ -723,19 +723,10 @@ class _AddMembersCardWidgetState extends State<AddMembersCardWidget>
                             }.withoutNulls,
                           );
 
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Se ha compartido con éxito',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).secondary,
-                            ),
+                          await actions.showToast(
+                            context,
+                            'Se ha compartido con éxito',
+                            'success',
                           );
                         },
                   text: 'Añadir Miembros',

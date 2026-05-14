@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -447,67 +448,96 @@ class _NotePreviewCardWidgetState extends State<NotePreviewCardWidget>
               animationsMap['containerOnActionTriggerAnimation']!,
             ),
         if (widget.note?.isEdit != null && widget.note?.isEdit != '')
-          Container(
-            width: 352.2,
-            height: 300.0,
-            decoration: BoxDecoration(
-              color: Color(0xB5000000),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24.0),
-                bottomRight: Radius.circular(24.0),
+          InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              if (widget.note?.isEdit == FFAppState().userLogged.id) {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: MediaQuery.viewInsetsOf(context),
+                      child: FocusedNoteWidget(
+                        note: widget.note!,
+                        isOwner: widget.isOwner!,
+                        targetPage: widget.targetPage!,
+                      ),
+                    );
+                  },
+                ).then((value) => safeSetState(() {}));
+              } else {
+                await actions.showToast(
+                  context,
+                  'Otro usuario está editando la nota',
+                  'error',
+                );
+              }
+            },
+            child: Container(
+              width: 352.2,
+              height: 300.0,
+              decoration: BoxDecoration(
+                color: Color(0xB5000000),
+                borderRadius: BorderRadius.circular(12.0),
               ),
-            ),
-            child: Align(
-              alignment: AlignmentDirectional(-1.0, 1.0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 10.0),
-                child: FutureBuilder<List<UserRow>>(
-                  future: UserTable().querySingleRow(
-                    queryFn: (q) => q.eqOrNull(
-                      'id',
-                      widget.note?.isEdit,
+              child: Align(
+                alignment: AlignmentDirectional(-1.0, 1.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 10.0),
+                  child: FutureBuilder<List<UserRow>>(
+                    future: UserTable().querySingleRow(
+                      queryFn: (q) => q.eqOrNull(
+                        'id',
+                        widget.note?.isEdit,
+                      ),
                     ),
-                  ),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              FlutterFlowTheme.of(context).primary,
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    List<UserRow> textUserRowList = snapshot.data!;
+                        );
+                      }
+                      List<UserRow> textUserRowList = snapshot.data!;
 
-                    final textUserRow = textUserRowList.isNotEmpty
-                        ? textUserRowList.first
-                        : null;
+                      final textUserRow = textUserRowList.isNotEmpty
+                          ? textUserRowList.first
+                          : null;
 
-                    return Text(
-                      'Está editando: ${textUserRow?.username}',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
+                      return Text(
+                        'Está editando: ${textUserRow?.id == FFAppState().userLogged.id ? 'Tú (Puedes editar)' : textUserRow?.username}',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: Colors.white,
+                              letterSpacing: 0.0,
                               fontWeight: FontWeight.w600,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontStyle,
                             ),
-                            color: Colors.white,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                      overflow: TextOverflow.fade,
-                    );
-                  },
+                        overflow: TextOverflow.fade,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

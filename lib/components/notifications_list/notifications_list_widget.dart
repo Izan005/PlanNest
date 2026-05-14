@@ -220,6 +220,7 @@ class _NotificationsListWidgetState extends State<NotificationsListWidget>
                                     .bodyMedium
                                     .fontStyle,
                               ),
+                              color: Colors.white,
                               fontSize: 30.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.bold,

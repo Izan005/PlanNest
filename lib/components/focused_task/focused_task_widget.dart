@@ -667,20 +667,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                   widget.task?.id,
                                 ),
                               );
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    '¡Tarea realizada a tiempo!',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
+                              await actions.showToast(
+                                context,
+                                '¡Tarea realizada a tiempo!',
+                                'success',
                               );
                             } else {
                               await TaskTable().update(
@@ -692,20 +682,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                                   widget.task?.id,
                                 ),
                               );
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Tarea realizada con retraso',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).warning,
-                                ),
+                              await actions.showToast(
+                                context,
+                                'Tarea realizada con retraso',
+                                'success',
                               );
                             }
 
@@ -842,18 +822,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                             }.withoutNulls,
                           );
 
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Se ha abandonado una tarea',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Colors.black,
-                            ),
+                          await actions.showToast(
+                            context,
+                            'Se ha abandonado una tarea',
+                            'success',
                           );
                         }
                       },
@@ -912,18 +884,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                             }.withoutNulls,
                           );
 
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Se ha eliminado una tarea',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Colors.black,
-                            ),
+                          await actions.showToast(
+                            context,
+                            'Se ha eliminado una tarea',
+                            'success',
                           );
                         }
                       },
@@ -940,18 +904,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                     highlightColor: Colors.transparent,
                     onTap: () async {
                       if (_model.textController.text == '') {
-                        ScaffoldMessenger.of(context).clearSnackBars();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Establece un nombre para la tarea',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor: Colors.black,
-                          ),
+                        await actions.showToast(
+                          context,
+                          'Introduce un nombre para la Tarea',
+                          'error',
                         );
                       } else {
                         await TaskTable().update(
@@ -979,18 +935,10 @@ class _FocusedTaskWidgetState extends State<FocusedTaskWidget> {
                           }.withoutNulls,
                         );
 
-                        ScaffoldMessenger.of(context).clearSnackBars();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'La tarea ha sido actualizada',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor: Colors.black,
-                          ),
+                        await actions.showToast(
+                          context,
+                          'La tarea ha sido actualizada',
+                          'success',
                         );
                       }
                     },

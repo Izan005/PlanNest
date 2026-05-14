@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -133,33 +134,6 @@ class _ChangePassCardWidgetState extends State<ChangePassCardWidget>
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (!_model.passLength)
-                                Text(
-                                  'Debe contener 6 caracteres o más',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 16.0),
@@ -292,33 +266,6 @@ class _ChangePassCardWidgetState extends State<ChangePassCardWidget>
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (!_model.coinciden)
-                                Text(
-                                  'Las contraseñas deben coincidir',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 16.0),
@@ -449,82 +396,189 @@ class _ChangePassCardWidgetState extends State<ChangePassCardWidget>
                         ].divide(SizedBox(height: 10.0)),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          if (_model.passwordCreateTextController1.text ==
-                              _model.passwordCreateTextController2.text) {
-                            _model.coinciden = true;
-                            safeSetState(() {});
-                            if (functions.passLengthVerification(_model
-                                    .passwordCreateTextController1.text) ==
-                                true) {
-                              _model.passLength = true;
+                    if (!_model.passLength || !_model.coinciden)
+                      Container(
+                        width: double.infinity,
+                        height: 100.0,
+                        decoration: BoxDecoration(
+                          color: Color(0x0014181B),
+                          borderRadius: BorderRadius.circular(16.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).error,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional(-1.0, -1.0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    5.0, 5.0, 0.0, 0.0),
+                                child: Icon(
+                                  Icons.info_outlined,
+                                  color: FlutterFlowTheme.of(context).error,
+                                  size: 24.0,
+                                ),
+                              ),
+                            ),
+                            if (!_model.passLength)
+                              Align(
+                                alignment: AlignmentDirectional(-1.0, 0.0),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    '- Debe contener 6 caracteres o más',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: Color(0x84FFFFFF),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            if (!_model.coinciden)
+                              Align(
+                                alignment: AlignmentDirectional(-1.0, 0.0),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    '- Las contraseñas deben coincidir',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: Color(0x84FFFFFF),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                          ].divide(SizedBox(height: 5.0)),
+                        ),
+                      ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 1.0),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            12.0, 0.0, 12.0, 0.0),
+                        child: FFButtonWidget(
+                          onPressed: () async {
+                            if (_model.passwordCreateTextController1.text ==
+                                _model.passwordCreateTextController2.text) {
+                              _model.coinciden = true;
                               safeSetState(() {});
-                              var confirmDialogResponse =
-                                  await showDialog<bool>(
-                                        context: context,
-                                        builder: (alertDialogContext) {
-                                          return AlertDialog(
-                                            title: Text('Cambiar Contraseña'),
-                                            content: Text(
-                                                '¿Seguro que quieres actualizar tu contraseña?'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext, false),
-                                                child: Text('Cancelar'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext, true),
-                                                child: Text('Confirmar'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ) ??
-                                      false;
-                              await authManager.updatePassword(
-                                newPassword:
-                                    _model.passwordCreateTextController1.text,
-                                context: context,
-                              );
-                              safeSetState(() {});
+                              if (functions.passLengthVerification(_model
+                                      .passwordCreateTextController1.text) ==
+                                  true) {
+                                _model.passLength = true;
+                                safeSetState(() {});
+                                var confirmDialogResponse =
+                                    await showDialog<bool>(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Cambiar Contraseña'),
+                                              content: Text(
+                                                  '¿Seguro que quieres actualizar tu contraseña?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext,
+                                                          false),
+                                                  child: Text('Cancelar'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext,
+                                                          true),
+                                                  child: Text('Confirmar'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ) ??
+                                        false;
+                                await authManager.updatePassword(
+                                  newPassword:
+                                      _model.passwordCreateTextController1.text,
+                                  context: context,
+                                );
+                                safeSetState(() {});
 
-                              context.pushNamedAuth(
-                                  HomePageWidget.routeName, context.mounted);
+                                context.pushNamedAuth(
+                                    HomePageWidget.routeName, context.mounted);
+                              } else {
+                                _model.passLength = false;
+                                safeSetState(() {});
+                                await actions.showToast(
+                                  context,
+                                  'Hay errores',
+                                  'error',
+                                );
+                              }
                             } else {
-                              _model.passLength = false;
+                              _model.coinciden = false;
                               safeSetState(() {});
+                              await actions.showToast(
+                                context,
+                                'Hay errores',
+                                'error',
+                              );
                             }
-                          } else {
-                            _model.coinciden = false;
-                            safeSetState(() {});
-                          }
-                        },
-                        text: 'Actualizar Contraseña',
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 52.0,
-                          padding: EdgeInsets.all(8.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: Color(0x004B39EF),
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    font: GoogleFonts.interTight(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
+                          },
+                          text: 'Actualizar Contraseña',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 52.0,
+                            padding: EdgeInsets.all(8.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: Color(0x004B39EF),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.interTight(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -532,12 +586,22 @@ class _ChangePassCardWidgetState extends State<ChangePassCardWidget>
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                          elevation: 0.0,
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 1.0,
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(26.0),
                           ),
-                          borderRadius: BorderRadius.circular(26.0),
                         ),
                       ),
                     ),

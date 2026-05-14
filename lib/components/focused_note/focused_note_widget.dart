@@ -2,6 +2,7 @@ import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -695,18 +696,10 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                               }.withoutNulls,
                             );
 
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Se ha abandonado una tarea',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor: Colors.black,
-                              ),
+                            await actions.showToast(
+                              context,
+                              'Se ha abandonado una tarea',
+                              'success',
                             );
                           }
                         },
@@ -765,19 +758,10 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                               }.withoutNulls,
                             );
 
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Se ha eliminado una nota',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor: Colors.black,
-                              ),
+                            await actions.showToast(
+                              context,
+                              'Se ha eliminado una nota',
+                              'success',
                             );
                           }
                         },
@@ -794,19 +778,10 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                       highlightColor: Colors.transparent,
                       onTap: () async {
                         if (_model.textController1.text == '') {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Establece un título para la nota',
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Colors.black,
-                            ),
+                          await actions.showToast(
+                            context,
+                            'Establece un título para la nota',
+                            'error',
                           );
                         } else {
                           await NoteTable().update(
@@ -840,19 +815,10 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                             }.withoutNulls,
                           );
 
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'La nota ha sido actualizada',
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor: Colors.black,
-                            ),
+                          await actions.showToast(
+                            context,
+                            'La nota ha sido actualizada',
+                            'success',
                           );
                         }
                       },

@@ -929,46 +929,16 @@ class _BottomCardTaskWidgetState extends State<BottomCardTaskWidget>
                                         }.withoutNulls,
                                       );
 
-                                      ScaffoldMessenger.of(context)
-                                          .clearSnackBars();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Tarea creada con éxito',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          ),
-                                          duration:
-                                              Duration(milliseconds: 3000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondary,
-                                        ),
+                                      await actions.showToast(
+                                        context,
+                                        'Tarea creada con éxito',
+                                        'success',
                                       );
                                     } else {
-                                      ScaffoldMessenger.of(context)
-                                          .clearSnackBars();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Introduce nombre de la Tarea',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          ),
-                                          duration:
-                                              Duration(milliseconds: 3000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .error,
-                                        ),
+                                      await actions.showToast(
+                                        context,
+                                        'Introduce nombre de la Tarea',
+                                        'error',
                                       );
                                     }
                                   },

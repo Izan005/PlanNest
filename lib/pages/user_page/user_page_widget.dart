@@ -1,7 +1,7 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/supabase/supabase.dart';
-import '/components/change_pass_card_widget.dart';
+import '/components/change_pass_card/change_pass_card_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -470,41 +470,16 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                                 }.withoutNulls,
                                               );
 
-                                              ScaffoldMessenger.of(context)
-                                                  .clearSnackBars();
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Se ha editado el nombre de usuario',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
+                                              await actions.showToast(
+                                                context,
+                                                'Se ha editado el nombre de usuario',
+                                                'success',
                                               );
                                             } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .clearSnackBars();
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'No se ha editado el usuario',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor: Colors.black,
-                                                ),
+                                              await actions.showToast(
+                                                context,
+                                                'No se ha editado el usuario',
+                                                'info',
                                               );
                                             }
                                           },
@@ -652,8 +627,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                                 0.0, 0.0, 0.0, 0.0),
                                         iconColor:
                                             FlutterFlowTheme.of(context).error,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
+                                        color: Color(0x0014181B),
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -702,7 +676,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           thickness: 1.0,
                           indent: 24.0,
                           endIndent: 24.0,
-                          color: FlutterFlowTheme.of(context).alternate,
+                          color: Color(0xFF262D34),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -710,8 +684,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           child: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
+                              color: Color(0xFF14181B),
                               boxShadow: [
                                 BoxShadow(
                                   blurRadius: 8.0,
@@ -808,8 +781,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                     width: 1.0,
                                     height: 40.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
+                                      color: Color(0xFF262D34),
                                     ),
                                   ),
                                   Flexible(
@@ -889,8 +861,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                     width: 1.0,
                                     height: 40.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
+                                      color: Color(0xFF262D34),
                                     ),
                                   ),
                                   Flexible(
@@ -977,8 +948,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           child: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
+                              color: Color(0xFF14181B),
                               boxShadow: [
                                 BoxShadow(
                                   blurRadius: 8.0,
@@ -1163,13 +1133,11 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                   Divider(
                                     height: 1.0,
                                     thickness: 1.0,
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: Color(0xFF262D34),
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -1181,6 +1149,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                               _model.noCompletedTasks,
                                               formatType: FormatType.compact,
                                             ),
+                                            textAlign: TextAlign.center,
                                             minFontSize: 20.0,
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineSmall
@@ -1205,73 +1174,6 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                           ),
                                           Text(
                                             'Sin completar',
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelSmall
-                                                .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelSmall
-                                                            .fontStyle,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelSmall
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelSmall
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                        ].divide(SizedBox(height: 4.0)),
-                                      ),
-                                      Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          AutoSizeText(
-                                            formatNumber(
-                                              _model.sharedElements,
-                                              formatType: FormatType.compact,
-                                            ),
-                                            minFontSize: 20.0,
-                                            style: FlutterFlowTheme.of(context)
-                                                .headlineSmall
-                                                .override(
-                                                  font: GoogleFonts.interTight(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .headlineSmall
-                                                            .fontStyle,
-                                                  ),
-                                                  color: Colors.white,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .headlineSmall
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                          Text(
-                                            'Elementos compartidos',
                                             style: FlutterFlowTheme.of(context)
                                                 .labelSmall
                                                 .override(

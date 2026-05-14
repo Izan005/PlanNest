@@ -622,24 +622,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     Colors.transparent,
                                                 onLongPress: () async {
                                                   HapticFeedback.heavyImpact();
-                                                  ScaffoldMessenger.of(context)
-                                                      .clearSnackBars();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        'No eres el dueño',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondary,
-                                                    ),
+                                                  await actions.showToast(
+                                                    context,
+                                                    'No eres el dueño',
+                                                    'info',
                                                   );
                                                 },
                                                 child: wrapWithModel(
@@ -728,6 +714,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
+                                                        color: Colors.white,
                                                         fontSize: 30.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -993,6 +980,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                           ),
+                                                          color: Colors.white,
                                                           fontSize: 30.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
@@ -1264,25 +1252,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     }.withoutNulls,
                                                   );
 
-                                                  ScaffoldMessenger.of(context)
-                                                      .clearSnackBars();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        functions.eliminadasNotas(
-                                                            FFAppState()
-                                                                .selectedNoteIds
-                                                                .toList()),
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          Colors.black,
-                                                    ),
+                                                  await actions.showToast(
+                                                    context,
+                                                    functions.eliminadasNotas(
+                                                        FFAppState()
+                                                            .selectedNoteIds
+                                                            .toList()),
+                                                    'success',
                                                   );
                                                   FFAppState().selectedNoteIds =
                                                       [];

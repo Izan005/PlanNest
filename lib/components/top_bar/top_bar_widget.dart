@@ -233,12 +233,10 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                                 borderRadius: 12.0,
                                 borderWidth: 1.0,
                                 buttonSize: 38.0,
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
+                                fillColor: Color(0xFF1D2428),
                                 icon: Icon(
                                   Icons.notifications_none_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: Colors.white,
                                   size: 20.0,
                                 ),
                                 onPressed: () async {
@@ -349,7 +347,7 @@ class _TopBarWidgetState extends State<TopBarWidget> {
                 width: double.infinity,
                 height: 1.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).alternate,
+                  color: Color(0xFF262D34),
                 ),
               ),
             ),

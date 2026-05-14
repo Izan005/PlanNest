@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -150,17 +151,10 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                     _model.sidebar = !_model.sidebar;
                     safeSetState(() {});
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'No eres el dueño',
-                          style: TextStyle(
-                            color: FlutterFlowTheme.of(context).primaryText,
-                          ),
-                        ),
-                        duration: Duration(milliseconds: 4000),
-                        backgroundColor: FlutterFlowTheme.of(context).secondary,
-                      ),
+                    await actions.showToast(
+                      context,
+                      'No eres el dueño',
+                      'info',
                     );
                   }
                 },
@@ -407,20 +401,10 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                                 widget.tarea?.id,
                               ),
                             );
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '¡Tarea realizada a tiempo!',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
+                            await actions.showToast(
+                              context,
+                              '¡Tarea realizada a tiempo!',
+                              'success',
                             );
                           } else {
                             await TaskTable().update(
@@ -432,20 +416,10 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
                                 widget.tarea?.id,
                               ),
                             );
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Tarea realizada con retraso',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).warning,
-                              ),
+                            await actions.showToast(
+                              context,
+                              'Tarea realizada con retraso',
+                              'success',
                             );
                           }
 
@@ -460,67 +434,99 @@ class _TaskComponentWidgetState extends State<TaskComponentWidget>
           ].divide(SizedBox(width: 12.0)),
         ),
         if (widget.tarea?.isEdit != null && widget.tarea?.isEdit != '')
-          Container(
-            width: double.infinity,
-            height: 100.0,
-            decoration: BoxDecoration(
-              color: Color(0xB5000000),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24.0),
-                bottomRight: Radius.circular(24.0),
+          InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              if (widget.tarea?.isEdit == FFAppState().userLogged.id) {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  enableDrag: false,
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: MediaQuery.viewInsetsOf(context),
+                      child: FocusedTaskWidget(
+                        task: widget.tarea!,
+                        targetPage: widget.targetPage!,
+                        isOwner: widget.isOwner!,
+                      ),
+                    );
+                  },
+                ).then((value) => safeSetState(() {}));
+              } else {
+                await actions.showToast(
+                  context,
+                  'Otro usuario está editando la nota',
+                  'error',
+                );
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              height: 100.0,
+              decoration: BoxDecoration(
+                color: Color(0xB5000000),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  bottomRight: Radius.circular(24.0),
+                ),
               ),
-            ),
-            child: Align(
-              alignment: AlignmentDirectional(-1.0, 1.0),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 10.0),
-                child: FutureBuilder<List<UserRow>>(
-                  future: UserTable().querySingleRow(
-                    queryFn: (q) => q.eqOrNull(
-                      'id',
-                      widget.tarea?.isEdit,
+              child: Align(
+                alignment: AlignmentDirectional(-1.0, 1.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 10.0),
+                  child: FutureBuilder<List<UserRow>>(
+                    future: UserTable().querySingleRow(
+                      queryFn: (q) => q.eqOrNull(
+                        'id',
+                        widget.tarea?.isEdit,
+                      ),
                     ),
-                  ),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              FlutterFlowTheme.of(context).primary,
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    List<UserRow> textUserRowList = snapshot.data!;
+                        );
+                      }
+                      List<UserRow> textUserRowList = snapshot.data!;
 
-                    final textUserRow = textUserRowList.isNotEmpty
-                        ? textUserRowList.first
-                        : null;
+                      final textUserRow = textUserRowList.isNotEmpty
+                          ? textUserRowList.first
+                          : null;
 
-                    return Text(
-                      'Está editando: ${textUserRow?.username}',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
+                      return Text(
+                        'Está editando: ${widget.tarea?.isEdit == FFAppState().userLogged.id ? 'Tú (Puedes editar)' : textUserRow?.username}',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: Colors.white,
+                              letterSpacing: 0.0,
                               fontWeight: FontWeight.w600,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontStyle,
                             ),
-                            color: Colors.white,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                      overflow: TextOverflow.fade,
-                    );
-                  },
+                        overflow: TextOverflow.fade,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
