@@ -95,6 +95,10 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
       choiceChipsValueController?.value?.firstOrNull;
   set choiceChipsValue(String? val) =>
       choiceChipsValueController?.value = val != null ? [val] : [];
+  // Stores action output result for [Custom Action - showSharedTasks] action in Icon widget.
+  List<TaskRow>? sharedTasksDbRefresh2;
+  // Stores action output result for [Custom Action - showSharedNotes] action in Icon widget.
+  List<NoteRow>? sharedNotesDbRefresh2;
   // Stores action output result for [Custom Action - showSharedTasks] action in ListView widget.
   List<TaskRow>? sharedTasksDbRefresh;
   // Models for TaskComponent dynamic component.

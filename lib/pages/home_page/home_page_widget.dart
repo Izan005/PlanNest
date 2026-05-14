@@ -399,109 +399,162 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  Align(
-                                    alignment: AlignmentDirectional(1.0, -1.0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 10.0, 10.0),
-                                      child: FlutterFlowChoiceChips(
-                                        options: [
-                                          ChipData('Tareas'),
-                                          ChipData('Notas')
-                                        ],
-                                        onChanged: (val) => safeSetState(() =>
-                                            _model.choiceChipsValue =
-                                                val?.firstOrNull),
-                                        selectedChipStyle: ChipStyle(
-                                          backgroundColor: Color(0x00FFFFFF),
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .info,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                          iconColor: Colors.white,
-                                          iconSize: 20.0,
-                                          elevation: 0.0,
-                                          borderColor: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(1.0, -1.0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 10.0, 10.0, 10.0),
+                                          child: FlutterFlowChoiceChips(
+                                            options: [
+                                              ChipData('Tareas'),
+                                              ChipData('Notas')
+                                            ],
+                                            onChanged: (val) => safeSetState(
+                                                () => _model.choiceChipsValue =
+                                                    val?.firstOrNull),
+                                            selectedChipStyle: ChipStyle(
+                                              backgroundColor:
+                                                  Color(0x00FFFFFF),
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .info,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                              iconColor: Colors.white,
+                                              iconSize: 20.0,
+                                              elevation: 0.0,
+                                              borderColor: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                            unselectedChipStyle: ChipStyle(
+                                              backgroundColor:
+                                                  Color(0x0014181B),
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                              iconColor: Colors.white,
+                                              iconSize: 16.0,
+                                              elevation: 0.0,
+                                              borderColor: Color(0x44FFFFFF),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                            chipSpacing: 8.0,
+                                            rowSpacing: 8.0,
+                                            multiselect: false,
+                                            initialized:
+                                                _model.choiceChipsValue != null,
+                                            alignment: WrapAlignment.start,
+                                            controller: _model
+                                                    .choiceChipsValueController ??=
+                                                FormFieldController<
+                                                    List<String>>(
+                                              ['Tareas'],
+                                            ),
+                                            wrapped: true,
+                                          ),
                                         ),
-                                        unselectedChipStyle: ChipStyle(
-                                          backgroundColor: Color(0x0014181B),
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                          iconColor: Colors.white,
-                                          iconSize: 16.0,
-                                          elevation: 0.0,
-                                          borderColor: Color(0x44FFFFFF),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        chipSpacing: 8.0,
-                                        rowSpacing: 8.0,
-                                        multiselect: false,
-                                        initialized:
-                                            _model.choiceChipsValue != null,
-                                        alignment: WrapAlignment.start,
-                                        controller: _model
-                                                .choiceChipsValueController ??=
-                                            FormFieldController<List<String>>(
-                                          ['Tareas'],
-                                        ),
-                                        wrapped: true,
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 12.0, 0.0),
+                                        child: InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            _model.sharedTasksDbRefresh2 =
+                                                await actions.showSharedTasks(
+                                              FFAppState().userLogged.id,
+                                            );
+                                            _model.sharedNotesDbRefresh2 =
+                                                await actions.showSharedNotes(
+                                              FFAppState().userLogged.id,
+                                            );
+                                            _model.sharedTasks = _model
+                                                .sharedTasksDbRefresh2!
+                                                .toList()
+                                                .cast<TaskRow>();
+                                            _model.sharedNotes = _model
+                                                .sharedNotesDbRefresh2!
+                                                .toList()
+                                                .cast<NoteRow>();
+                                            safeSetState(() {});
+
+                                            safeSetState(() {});
+                                          },
+                                          child: Icon(
+                                            Icons.replay,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            size: 24.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
