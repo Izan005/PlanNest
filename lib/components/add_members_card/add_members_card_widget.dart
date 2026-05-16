@@ -267,6 +267,7 @@ class _AddMembersCardWidgetState extends State<AddMembersCardWidget>
                                           .bodyMedium
                                           .fontStyle,
                                     ),
+                                    color: Colors.white,
                                     fontSize: 13.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
@@ -368,7 +369,7 @@ class _AddMembersCardWidgetState extends State<AddMembersCardWidget>
                                       width: double.infinity,
                                       height: 45.0,
                                       decoration: BoxDecoration(
-                                        color: Colors.transparent,
+                                        color: Color(0x00FFFFFF),
                                       ),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(

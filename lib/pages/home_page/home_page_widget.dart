@@ -548,8 +548,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                           },
                                           child: Icon(
                                             Icons.replay,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                            color: Colors.white,
                                             size: 24.0,
                                           ),
                                         ),
