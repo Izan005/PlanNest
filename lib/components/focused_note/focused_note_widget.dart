@@ -698,7 +698,7 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
 
                             await actions.showToast(
                               context,
-                              'Se ha abandonado una tarea',
+                              'Se ha abandonado una nota',
                               'success',
                             );
                           }
@@ -752,7 +752,7 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                               HomePageWidget.routeName,
                               queryParameters: {
                                 'targetPage': serializeParam(
-                                  2,
+                                  widget.targetPage,
                                   ParamType.int,
                                 ),
                               }.withoutNulls,
@@ -809,7 +809,7 @@ class _FocusedNoteWidgetState extends State<FocusedNoteWidget> {
                             HomePageWidget.routeName,
                             queryParameters: {
                               'targetPage': serializeParam(
-                                2,
+                                widget.targetPage,
                                 ParamType.int,
                               ),
                             }.withoutNulls,
